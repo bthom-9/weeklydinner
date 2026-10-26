@@ -1,23 +1,34 @@
 import {
   normalizeRecipe, mergeRecipeCollections, parseIngredient, scaleRecipe, buildShoppingList,
   formatAmount, shoppingText, parseRecipeImport, getWeekStart, shiftWeek,
+  recipeRatingStats, sortRecipes, RATING_PRIOR_STARS, RATING_PRIOR_COUNT,
+  applyRecipePhotoUpdates,
 } from './core.js';
 import { readState, writeState, requestPersistentStorage } from './storage.js';
 
 const KEY = 'weektable.state.v1';
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const RECIPE_SORT_OPTIONS = [
+  ['weighted', 'Weighted rating'], ['stars', 'Star rating'],
+  ['reviews', 'Most reviews'], ['title', 'Name A–Z'], ['collection', 'Collection order'],
+];
 const app = document.querySelector('#app');
 const modalRoot = document.querySelector('#modal-root');
 const ui = { view: 'recipes', search: '', filter: 'all', week: getWeekStart(), modal: null, addDay: null, visible: 24, importResult: '', offline: 'Preparing offline access…', storageWarning: '' };
 let recipes = [];
 let bundled = [];
 let shippedRecipes = [];
+let recipePhotoUpdates = [];
+let lastPhotoUpdateCount = 0;
+let photoCollectionsChanged = false;
+let appReady = false;
+const failedRecipePhotos = new Set();
 let toastTimer;
 let previousFocus;
 let state = freshState();
 
 function freshState() {
-  return { version: 1, defaultServings: 4, favorites: [], plan: [], imports: [], bundledRecipes: null, shopping: {}, lastBackup: null };
+  return { version: 1, defaultServings: 4, recipeSort: 'weighted', favorites: [], plan: [], imports: [], bundledRecipes: null, shopping: {}, lastBackup: null };
 }
 const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 const uid = () => globalThis.crypto?.randomUUID?.() || `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -71,10 +82,64 @@ function ratingMarkup(recipe, detail = false) {
   const date = rating.retrievedAt ? new Date(`${rating.retrievedAt}T12:00:00`).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '';
   return `<div class="source-rating-detail">${badge}<p>Reader rating for the original recipe at ${source}.${date ? ` Recorded ${esc(date)}.` : ''} Ratings can change; they do not rate edits made in this app.</p></div>`;
 }
+function recipeSortMode() {
+  return RECIPE_SORT_OPTIONS.some(([value]) => value === state.recipeSort) ? state.recipeSort : 'weighted';
+}
+function recipeSortControls() {
+  const mode = recipeSortMode();
+  const descriptions = {
+    weighted: 'More ratings make the source average count more. Unrated recipes follow rated ones.',
+    stars: 'Highest source star rating first. Unrated recipes follow rated ones.',
+    reviews: 'Most source ratings first. Unrated recipes follow rated ones.',
+    title: 'Recipes A–Z by name, including recipes without source ratings.',
+    collection: 'Your recipes in their original collection order.',
+  };
+  return `<div class="recipe-sort-bar"><div class="recipe-sort-field"><label for="recipe-sort">Sort recipes</label><select id="recipe-sort" aria-describedby="recipe-sort-summary">${RECIPE_SORT_OPTIONS.map(([value, label]) => `<option value="${value}" ${mode === value ? 'selected' : ''}>${label}</option>`).join('')}</select></div><p id="recipe-sort-summary" class="recipe-sort-summary">${descriptions[mode]}</p></div>${mode === 'weighted' ? `<details class="recipe-sort-help"><summary>How weighted ratings work</summary><p>The ranking balances source stars and the number of ratings. A recipe with more ratings gives us more evidence for its score.</p><p class="rating-formula">Weighted score = (stars × ratings + ${RATING_PRIOR_STARS} × ${RATING_PRIOR_COUNT}) ÷ (ratings + ${RATING_PRIOR_COUNT})</p><p>Stars are converted to a five-star scale. The ${RATING_PRIOR_STARS}/5 baseline has the influence of ${RATING_PRIOR_COUNT} ratings; this is a ranking setting, not extra reader votes. More real ratings move the score closer to the source average. The original rating stays on each card, and unrated recipes receive no score.</p></details>` : ''}`;
+}
+function cardRatingMarkup(recipe) {
+  const stats = recipeRatingStats(recipe), mode = recipeSortMode();
+  if (!stats) return ['weighted', 'stars', 'reviews'].includes(mode) ? '<p class="recipe-unrated">No source rating</p>' : '';
+  const score = new Intl.NumberFormat(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(stats.weightedScore);
+  return `<div class="recipe-card-rating">${ratingMarkup(recipe)}${mode === 'weighted' ? `<p class="recipe-weighted-score" aria-label="Weighted ranking score: ${esc(score)} out of 5">Weighted ${esc(score)} / 5</p>` : ''}</div>`;
+}
 function sourceFootnote(recipe) {
   const source = recipe.source;
   const link = safeLink(source.url), license = safeLink(source.licenseUrl);
   return `<div class="source-footnote"><strong>Source: ${esc(source.name)}</strong>${link ? ` · <a href="${esc(link)}" target="_blank" rel="noopener noreferrer">Open source ↗</a>` : ''}${source.attribution ? `<p>${esc(source.attribution)}</p>` : ''}${source.license || license ? `<p>Reuse: ${license ? `<a href="${esc(license)}" target="_blank" rel="noopener noreferrer">${esc(source.license || 'Read source reuse terms')} ↗</a>` : esc(source.license)}</p>` : ''}${source.adaptations ? `<p>Adaptations: ${esc(source.adaptations)}</p>` : ''}${source.kind === 'original' ? '<p>An original Weektable starter recipe.</p>' : ''}</div>`;
+}
+function photoAttributionMarkup(recipe) {
+  const photoUrl = safeLink(recipe.image, true), attribution = recipe.imageAttribution;
+  if (!photoUrl || !attribution || failedRecipePhotos.has(photoUrl)) return '';
+  const sourceUrl = safeLink(attribution.sourceUrl), licenseUrl = safeLink(attribution.licenseUrl);
+  const credit = attribution.credit ? `<span>Photo: ${esc(attribution.credit)}</span>` : '<span>Recipe photo</span>';
+  const source = sourceUrl ? `<a href="${esc(sourceUrl)}" target="_blank" rel="noopener noreferrer">Photo source ↗</a>` : '';
+  const license = licenseUrl ? `<a href="${esc(licenseUrl)}" target="_blank" rel="noopener noreferrer">${esc(attribution.license || 'Photo license')} ↗</a>` : attribution.license ? `<span>${esc(attribution.license)}</span>` : '';
+  return `<div class="recipe-photo-credit" data-photo-credit-url="${esc(photoUrl)}">${[credit, source, license].filter(Boolean).join('<span aria-hidden="true">·</span>')}</div>`;
+}
+async function loadRecipePhotoCatalog() {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+  try {
+    const response = await fetch('./data/recipe-photos.json', { signal: controller.signal });
+    if (!response.ok) return [];
+    const catalog = await response.json();
+    return catalog.schemaVersion === 1 && Array.isArray(catalog.photos) ? catalog.photos : [];
+  } catch { return []; }
+  finally { clearTimeout(timeout); }
+}
+async function refreshRecipePhotos(catalogPromise = loadRecipePhotoCatalog()) {
+  const updates = await catalogPromise;
+  if (!updates.length) return;
+  recipePhotoUpdates = updates;
+  if (!appReady) return;
+  const addedRecipes = rebuildRecipes();
+  if (!photoCollectionsChanged && !addedRecipes) return;
+  persist();
+  render();
+  // Preserve unsaved editor inputs; only the read-only recipe view needs new
+  // imagery when an optional catalog finishes in the background.
+  if (ui.modal?.type === 'recipe') renderModal();
+  if (lastPhotoUpdateCount) toast(`${lastPhotoUpdateCount} recipe photo${lastPhotoUpdateCount === 1 ? '' : 's'} added to your kitchen.`);
 }
 function isPersonalRecipe(recipe) { return state.imports.some(item => item.id === recipe.id); }
 function servingButtons(value, action, id = '') {
@@ -91,10 +156,22 @@ function rebuildRecipes() {
   // Keep every saved recipe version. A later deployment may append new IDs,
   // but cannot replace ingredients used by a saved plan or a personal import.
   const hasSnapshot = Array.isArray(state.bundledRecipes);
+  const previousImages = new Map(recipes.map(recipe => [recipe.id, recipe.image]));
+  const shippedPhotos = applyRecipePhotoUpdates(shippedRecipes, recipePhotoUpdates);
+  const savedPhotos = applyRecipePhotoUpdates(hasSnapshot ? state.bundledRecipes : [], recipePhotoUpdates);
+  const importedPhotos = applyRecipePhotoUpdates(state.imports, recipePhotoUpdates);
+  shippedRecipes = shippedPhotos.recipes;
+  if (hasSnapshot) state.bundledRecipes = savedPhotos.recipes;
+  state.imports = importedPhotos.recipes;
+  const changedPhotoIds = new Set([...shippedPhotos.updatedIds, ...savedPhotos.updatedIds, ...importedPhotos.updatedIds]);
   const merged = mergeRecipeCollections(shippedRecipes, state.bundledRecipes, state.imports);
   bundled = merged.bundled;
   recipes = merged.recipes;
-  if (hasSnapshot) state.bundledRecipes = bundled;
+  // Catalog additions are saved with the existing recipe snapshot. Neither an
+  // ingredient edit nor a previously chosen photo is replaced by this update.
+  if (hasSnapshot || shippedPhotos.updatedIds.length) state.bundledRecipes = bundled;
+  photoCollectionsChanged = changedPhotoIds.size > 0;
+  lastPhotoUpdateCount = recipes.filter(recipe => changedPhotoIds.has(recipe.id) && recipe.image && previousImages.get(recipe.id) !== recipe.image).length;
   return hasSnapshot ? merged.addedIds.length : 0;
 }
 function getShoppingState() {
@@ -155,7 +232,8 @@ function plateArt(recipe, detail = false) {
 }
 function recipeArt(recipe, detail = false) {
   const src = safeLink(recipe.image, true);
-  return src ? `<img src="${esc(src)}" alt="${esc(recipe.title)}" loading="${detail ? 'eager' : 'lazy'}" referrerpolicy="no-referrer">` : plateArt(recipe, detail);
+  if (!src || failedRecipePhotos.has(src)) return plateArt(recipe, detail);
+  return `<span class="recipe-visual has-photo"><span class="recipe-visual-fallback" aria-hidden="true">${plateArt(recipe, detail)}</span><img class="recipe-photo" src="${esc(src)}" alt="${esc(recipe.title)}" loading="${detail ? 'eager' : 'lazy'}" decoding="async" referrerpolicy="no-referrer"></span>`;
 }
 function ingredientEditText(item) {
   if (item.raw) return item.raw;
@@ -193,12 +271,13 @@ function recipesView() {
     if (ui.filter === 'rated') return recipe.rating && recipe.rating.value / recipe.rating.best >= 0.8 && recipe.rating.count >= 10;
     return true;
   });
+  filtered = sortRecipes(filtered, recipeSortMode());
   const chips = [['all', 'All recipes'], ['rated', 'Reader favourites'], ['quick', '30 minutes or less'], ['vegetarian', 'Plant-forward'], ['favorites', 'Favourites'], ['imports', 'My imports']];
-  return `<section class="hero"><div class="hero-copy"><div class="eyebrow">A place for your everyday favourites</div><h1>A little planning.<br>A much better week.</h1><p>Choose what sounds good. Set the table for 2, 4 or 6.<br>Leave the shopping list to us.</p></div>${heroArt()}</section><div class="section-head"><div><h2>What sounds good?</h2><p>${recipes.length} recipes in your kitchen${ui.addDay ? ` · Adding to ${esc(ui.addDay)}` : ''}</p></div><button class="text-button" data-action="new-recipe">${icon('plus', 15)} Add a recipe</button></div><div class="search-row"><div class="search-wrap">${icon('search', 19)}<input id="recipe-search" type="search" placeholder="Find a recipe or an ingredient…" aria-label="Search recipes and ingredients" value="${esc(ui.search)}" autocomplete="off"></div><button class="filter-button" data-action="navigate" data-view="settings">${icon('upload', 16)} Import</button></div><div class="filter-chips" aria-label="Recipe filters">${chips.map(([id, label]) => `<button class="chip ${ui.filter === id ? 'active' : ''}" aria-pressed="${ui.filter === id}" data-action="filter" data-filter="${id}">${label}</button>`).join('')}</div>${filtered.length ? `<div class="recipes-grid">${filtered.slice(0, ui.visible).map(recipeCard).join('')}</div>${filtered.length > ui.visible ? `<div style="text-align:center;margin-top:25px"><button class="button secondary" data-action="more-recipes">Show more recipes ${icon('plus', 15)}</button><p class="scroll-hint">Showing ${ui.visible} of ${filtered.length}</p></div>` : ''}` : emptyState(ui.search ? 'Nothing on the menu yet.' : 'Room for a new favourite.', ui.search ? 'Try another name or ingredient. You can also add your own recipe.' : ui.filter === 'favorites' ? 'Tap the little heart on any recipe to save it here.' : ui.filter === 'imports' ? 'Bring your saved recipe files into My kitchen, or write down a recipe you love.' : 'Try another filter to explore your collection.', 'recipes', 'Show all recipes', 'reset-filters')}<div class="bottom-note">${icon('leaf', 13)}Original starters and recipes from credited sources. Source ratings refer to the original recipe; Reader favourites have at least 10 ratings and a score of 4/5 or better.</div>`;
+  return `<section class="hero"><div class="hero-copy"><div class="eyebrow">A place for your everyday favourites</div><h1>A little planning.<br>A much better week.</h1><p>Choose what sounds good. Set the table for 2, 4 or 6.<br>Leave the shopping list to us.</p></div>${heroArt()}</section><div class="section-head"><div><h2>What sounds good?</h2><p>${recipes.length} recipes in your kitchen${ui.addDay ? ` · Adding to ${esc(ui.addDay)}` : ''}</p></div><button class="text-button" data-action="new-recipe">${icon('plus', 15)} Add a recipe</button></div><div class="search-row"><div class="search-wrap">${icon('search', 19)}<input id="recipe-search" type="search" placeholder="Find a recipe or an ingredient…" aria-label="Search recipes and ingredients" value="${esc(ui.search)}" autocomplete="off"></div><button class="filter-button" data-action="navigate" data-view="settings">${icon('upload', 16)} Import</button></div><div class="filter-chips" aria-label="Recipe filters">${chips.map(([id, label]) => `<button class="chip ${ui.filter === id ? 'active' : ''}" aria-pressed="${ui.filter === id}" data-action="filter" data-filter="${id}">${label}</button>`).join('')}</div>${recipeSortControls()}${filtered.length ? `<div class="recipes-grid">${filtered.slice(0, ui.visible).map(recipeCard).join('')}</div>${filtered.length > ui.visible ? `<div style="text-align:center;margin-top:25px"><button class="button secondary" data-action="more-recipes">Show more recipes ${icon('plus', 15)}</button><p class="scroll-hint">Showing ${ui.visible} of ${filtered.length}</p></div>` : ''}` : emptyState(ui.search ? 'Nothing on the menu yet.' : 'Room for a new favourite.', ui.search ? 'Try another name or ingredient. You can also add your own recipe.' : ui.filter === 'favorites' ? 'Tap the little heart on any recipe to save it here.' : ui.filter === 'imports' ? 'Bring your saved recipe files into My kitchen, or write down a recipe you love.' : 'Try another filter to explore your collection.', 'recipes', 'Show all recipes', 'reset-filters')}<div class="bottom-note">${icon('leaf', 13)}Original starters and recipes from credited sources. Source ratings refer to the original recipe; Reader favourites have at least 10 ratings and a score of 4/5 or better.</div>`;
 }
 function recipeCard(recipe) {
   const favorite = state.favorites.includes(recipe.id);
-  return `<article class="recipe-card"><button class="favorite-button ${favorite ? 'is-favorite' : ''}" data-action="favorite" data-id="${esc(recipe.id)}" aria-label="${favorite ? 'Remove from' : 'Add to'} favourites: ${esc(recipe.title)}" aria-pressed="${favorite}">${icon('heart', 16)}</button><button class="recipe-art-button" data-action="open-recipe" data-id="${esc(recipe.id)}" aria-label="View ${esc(recipe.title)}">${recipeArt(recipe)}</button><div class="recipe-card-body"><div class="recipe-tags">${recipe.tags.slice(0, 2).map(tag => `<span class="recipe-tag">${esc(tag)}</span>`).join('<span style="color:#c3cbb7;font-size:8px">·</span>')}</div><button class="card-title-button" data-action="open-recipe" data-id="${esc(recipe.id)}"><h3>${esc(recipe.title)}</h3></button><p class="recipe-description">${esc(recipe.description)}</p>${ratingMarkup(recipe)}<div class="recipe-meta"><span>${icon('clock', 13)}${recipe.minutes ? `${recipe.minutes} min` : 'Time not listed'}</span><span>${icon('people', 13)}${recipe.servings} servings</span></div></div><div class="recipe-card-footer"><span class="source-label">${recipe.source.kind === 'original' ? 'WEEKTABLE ORIGINAL' : isPersonalRecipe(recipe) ? 'YOUR COLLECTION' : 'SOURCE RECIPE'}</span><button class="add-button" data-action="quick-add" data-id="${esc(recipe.id)}">${icon('plus', 14)} Add to week</button></div></article>`;
+  return `<article class="recipe-card"><button class="favorite-button ${favorite ? 'is-favorite' : ''}" data-action="favorite" data-id="${esc(recipe.id)}" aria-label="${favorite ? 'Remove from' : 'Add to'} favourites: ${esc(recipe.title)}" aria-pressed="${favorite}">${icon('heart', 16)}</button><button class="recipe-art-button" data-action="open-recipe" data-id="${esc(recipe.id)}" aria-label="View ${esc(recipe.title)}">${recipeArt(recipe)}</button><div class="recipe-card-body"><div class="recipe-tags">${recipe.tags.slice(0, 2).map(tag => `<span class="recipe-tag">${esc(tag)}</span>`).join('<span style="color:#c3cbb7;font-size:8px">·</span>')}</div><button class="card-title-button" data-action="open-recipe" data-id="${esc(recipe.id)}"><h3>${esc(recipe.title)}</h3></button><p class="recipe-description">${esc(recipe.description)}</p>${cardRatingMarkup(recipe)}<div class="recipe-meta"><span>${icon('clock', 13)}${recipe.minutes ? `${recipe.minutes} min` : 'Time not listed'}</span><span>${icon('people', 13)}${recipe.servings} servings</span></div></div><div class="recipe-card-footer"><span class="source-label">${recipe.source.kind === 'original' ? 'WEEKTABLE ORIGINAL' : isPersonalRecipe(recipe) ? 'YOUR COLLECTION' : 'SOURCE RECIPE'}</span><button class="add-button" data-action="quick-add" data-id="${esc(recipe.id)}">${icon('plus', 14)} Add to week</button></div></article>`;
 }
 function weekControls() { return `<div class="week-controls"><button class="icon-button" data-action="week" data-delta="-1" aria-label="Previous week">${icon('left')}</button><strong class="week-range">${esc(weekLabel())}</strong><button class="icon-button" data-action="week" data-delta="1" aria-label="Next week">${icon('right')}</button></div>`; }
 function planView() {
@@ -248,7 +327,7 @@ function renderModal() {
   if (modal.type === 'recipe') {
     const recipe = findRecipe(modal.id); if (!recipe) { closeModal(); return; }
     const scaled = scaleRecipe(recipe, modal.servings), favorite = state.favorites.includes(recipe.id);
-    modalRoot.innerHTML = `<div class="modal-overlay"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="recipe-title" tabindex="-1"><button class="modal-close" data-action="close-modal" aria-label="Close recipe">${icon('close', 19)}</button><div class="recipe-detail-art">${recipeArt(recipe, true)}</div><div class="recipe-detail-content"><div class="eyebrow">${recipe.source.kind === 'original' ? 'A Weektable original' : esc(recipe.source.name)}</div><div class="recipe-detail-header"><h2 id="recipe-title">${esc(recipe.title)}</h2><button class="favorite-button ${favorite ? 'is-favorite' : ''}" data-action="favorite" data-id="${esc(recipe.id)}" aria-label="${favorite ? 'Remove from' : 'Add to'} favourites" aria-pressed="${favorite}">${icon('heart', 18)}</button></div><p class="recipe-detail-description">${esc(recipe.description)}</p><div class="detail-meta"><span>${icon('clock', 15)}${scaled.minutes ? `${scaled.minutes} minutes` : 'Time not listed'}</span><span>${icon('people', 15)}${modal.servings} servings</span>${recipe.tags.slice(0, 3).map(tag => `<span class="pill">${esc(tag)}</span>`).join('')}</div>${ratingMarkup(recipe, true)}<div class="recipe-detail-toolbar"><div class="detail-serving"><span>Set your table</span>${servingButtons(modal.servings, 'modal-servings')}</div><div class="detail-add"><select id="modal-day" aria-label="Day for this meal">${DAYS.map(day => `<option ${day === modal.day ? 'selected' : ''}>${day}</option>`).join('')}</select><button class="button" data-action="modal-add">${icon('plus', 15)} Add to week</button></div></div><div class="scaling-note">${scaled.scalingMode === 'exact' ? `Ingredients shown for the recipe’s exact ${modal.servings}-serving version.` : `Ingredients scaled from ${scaled.baseServings} to ${modal.servings} servings. Check pan size and cook in batches when needed. Cooking times, temperatures and quantities written inside steps stay as originally written.`}</div><div class="recipe-columns"><section><h3>What you’ll need</h3><ul class="ingredient-list">${scaled.ingredients.map(item => `<li><span class="amount">${item.quantity === null ? 'To taste / check' : esc(formatAmount(item.quantity, item.unit))}</span><span class="ingredient-name">${esc(item.name)}${item.packageSize ? `<span class="ingredient-note">${esc(item.packageSize)} per package</span>` : ''}${item.preparation ? `<span class="ingredient-note">${esc(item.preparation)}</span>` : ''}${item.note ? `<span class="ingredient-note">${esc(item.note)}</span>` : ''}</span></li>`).join('')}</ul></section><section><h3>Let’s make it.</h3><ol class="steps-list">${scaled.steps.map((step, index) => `<li class="${modal.done.includes(index) ? 'done' : ''}"><button class="step-button" data-action="step-done" data-index="${index}" aria-label="${modal.done.includes(index) ? 'Uncheck' : 'Complete'} step ${index + 1}" aria-pressed="${modal.done.includes(index)}">${modal.done.includes(index) ? icon('check', 14) : index + 1}</button><p>${esc(step)}</p></li>`).join('')}</ol></section></div>${sourceFootnote(recipe)}${isPersonalRecipe(recipe) ? `<div class="modal-footer"><button class="button secondary" data-action="edit-recipe" data-id="${esc(recipe.id)}">${icon('edit', 15)} Edit recipe</button><button class="text-button" data-action="delete-recipe" data-id="${esc(recipe.id)}">Remove recipe</button></div>` : ''}</div></section></div>`;
+    modalRoot.innerHTML = `<div class="modal-overlay"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="recipe-title" tabindex="-1"><button class="modal-close" data-action="close-modal" aria-label="Close recipe">${icon('close', 19)}</button><div class="recipe-detail-art">${recipeArt(recipe, true)}</div><div class="recipe-detail-content">${photoAttributionMarkup(recipe)}<div class="eyebrow">${recipe.source.kind === 'original' ? 'A Weektable original' : esc(recipe.source.name)}</div><div class="recipe-detail-header"><h2 id="recipe-title">${esc(recipe.title)}</h2><button class="favorite-button ${favorite ? 'is-favorite' : ''}" data-action="favorite" data-id="${esc(recipe.id)}" aria-label="${favorite ? 'Remove from' : 'Add to'} favourites" aria-pressed="${favorite}">${icon('heart', 18)}</button></div><p class="recipe-detail-description">${esc(recipe.description)}</p><div class="detail-meta"><span>${icon('clock', 15)}${scaled.minutes ? `${scaled.minutes} minutes` : 'Time not listed'}</span><span>${icon('people', 15)}${modal.servings} servings</span>${recipe.tags.slice(0, 3).map(tag => `<span class="pill">${esc(tag)}</span>`).join('')}</div>${ratingMarkup(recipe, true)}<div class="recipe-detail-toolbar"><div class="detail-serving"><span>Set your table</span>${servingButtons(modal.servings, 'modal-servings')}</div><div class="detail-add"><select id="modal-day" aria-label="Day for this meal">${DAYS.map(day => `<option ${day === modal.day ? 'selected' : ''}>${day}</option>`).join('')}</select><button class="button" data-action="modal-add">${icon('plus', 15)} Add to week</button></div></div><div class="scaling-note">${scaled.scalingMode === 'exact' ? `Ingredients shown for the recipe’s exact ${modal.servings}-serving version.` : `Ingredients scaled from ${scaled.baseServings} to ${modal.servings} servings. Check pan size and cook in batches when needed. Cooking times, temperatures and quantities written inside steps stay as originally written.`}</div><div class="recipe-columns"><section><h3>What you’ll need</h3><ul class="ingredient-list">${scaled.ingredients.map(item => `<li><span class="amount">${item.quantity === null ? 'To taste / check' : esc(formatAmount(item.quantity, item.unit))}</span><span class="ingredient-name">${esc(item.name)}${item.packageSize ? `<span class="ingredient-note">${esc(item.packageSize)} per package</span>` : ''}${item.preparation ? `<span class="ingredient-note">${esc(item.preparation)}</span>` : ''}${item.note ? `<span class="ingredient-note">${esc(item.note)}</span>` : ''}</span></li>`).join('')}</ul></section><section><h3>Let’s make it.</h3><ol class="steps-list">${scaled.steps.map((step, index) => `<li class="${modal.done.includes(index) ? 'done' : ''}"><button class="step-button" data-action="step-done" data-index="${index}" aria-label="${modal.done.includes(index) ? 'Uncheck' : 'Complete'} step ${index + 1}" aria-pressed="${modal.done.includes(index)}">${modal.done.includes(index) ? icon('check', 14) : index + 1}</button><p>${esc(step)}</p></li>`).join('')}</ol></section></div>${sourceFootnote(recipe)}${isPersonalRecipe(recipe) ? `<div class="modal-footer"><button class="button secondary" data-action="edit-recipe" data-id="${esc(recipe.id)}">${icon('edit', 15)} Edit recipe</button><button class="text-button" data-action="delete-recipe" data-id="${esc(recipe.id)}">Remove recipe</button></div>` : ''}</div></section></div>`;
   } else if (modal.type === 'editor') {
     const recipe = modal.id ? findRecipe(modal.id) : null;
     modalRoot.innerHTML = `<div class="modal-overlay"><section class="modal edit-modal" role="dialog" aria-modal="true" aria-labelledby="editor-title" tabindex="-1"><button class="modal-close" data-action="close-modal" aria-label="Close recipe editor">${icon('close', 19)}</button><div class="eyebrow">Your favourites deserve a place</div><h2 id="editor-title">${recipe ? 'A little fine-tuning.' : 'Write down a recipe.'}</h2><p>Start with the recipe’s original quantities and serving count. Weektable will do the scaling when you add it to your plan.</p><form id="recipe-form" class="recipe-form"><div class="form-field"><label for="edit-title">Recipe name</label><input id="edit-title" name="title" required maxlength="200" value="${esc(recipe?.title || '')}"></div><div class="form-row"><div class="form-field"><label for="edit-servings">Original servings</label><input id="edit-servings" name="servings" type="number" min="1" max="100" step="1" required value="${recipe?.servings || 2}"></div><div class="form-field"><label for="edit-minutes">Total minutes, optional</label><input id="edit-minutes" name="minutes" type="number" min="1" max="14400" value="${recipe?.minutes || ''}"></div></div><div class="form-field"><label for="edit-description">A short note, optional</label><input id="edit-description" name="description" maxlength="500" value="${esc(recipe?.description || '')}"></div><div class="form-field"><label for="edit-ingredients">Ingredients · one per line</label><textarea id="edit-ingredients" name="ingredients" required rows="7" placeholder="400 g chicken breast&#10;1 tbsp olive oil&#10;2 cloves garlic&#10;1/2 tsp salt">${esc(recipe?.ingredients.map(ingredientEditText).join('\n') || '')}</textarea><small>Use amounts such as 200 g, 1/2 cup, 2 eggs, or 1 (400 g) can tomatoes. Unrecognised amounts are flagged for review in the shopping list.</small></div><div class="form-field"><label for="edit-steps">Cooking steps · one per line</label><textarea id="edit-steps" name="steps" required rows="6" placeholder="Heat the oven…&#10;Prepare the vegetables…">${esc(recipe?.steps.join('\n') || '')}</textarea></div><div class="form-field"><label for="edit-source">Source URL, optional</label><input id="edit-source" name="source" type="url" placeholder="https://…" value="${esc(recipe?.source.url || '')}"></div>${recipe?.variants && Object.keys(recipe.variants).length ? `<div class="notice" style="margin-bottom:0"><strong>This recipe has exact serving variants.</strong> Title, source and note edits preserve them. If you change the base servings, ingredients or steps, the app needs to scale from your edited base recipe.<label style="display:flex;gap:10px;margin-top:10px;align-items:flex-start"><input type="checkbox" name="replace-variants" value="yes" style="width:18px;min-height:18px;margin-top:3px;flex:none">Allow changed base quantities or steps to replace the saved variants.</label></div>` : ''}<div id="editor-error" role="alert"></div><button class="button" type="submit">${icon('check', 17)} ${recipe ? 'Save changes' : 'Save recipe'}</button></form></section></div>`;
@@ -303,6 +382,7 @@ function normalizeSavedState(input) {
   if (!input || input.version !== 1 || !Array.isArray(input.plan) || !Array.isArray(input.imports)) throw new Error('This is not a supported Weektable backup.');
   const clean = freshState();
   clean.defaultServings = [2, 4, 6].includes(input.defaultServings) ? input.defaultServings : 4;
+  clean.recipeSort = RECIPE_SORT_OPTIONS.some(([value]) => value === input.recipeSort) ? input.recipeSort : 'weighted';
   clean.bundledRecipes = Array.isArray(input.bundledRecipes) ? input.bundledRecipes.map(normalizeRecipe) : null;
   clean.imports = input.imports.map(normalizeRecipe);
   const collection = mergeRecipeCollections(shippedRecipes, clean.bundledRecipes, clean.imports);
@@ -328,13 +408,14 @@ async function importFiles(files) {
       const text = await file.text();
       const result = parseRecipeImport(text, file.name);
       warnings.push(...result.warnings.map(message => `${file.name}: ${message}`));
-      for (const incoming of result.recipes) {
+      const incomingRecipes = applyRecipePhotoUpdates(result.recipes.map(normalizeRecipe), recipePhotoUpdates).recipes;
+      for (const incoming of incomingRecipes) {
         let recipe = normalizeRecipe(incoming);
         const existing = recipes.find(item => item.id === recipe.id);
         // A corrected method, serving count or source variant is a new record,
         // even when its title and ingredients match an earlier import.
         const content = record => {
-          const { id: ignoredId, ...normalized } = normalizeRecipe(record);
+          const { id: ignoredId, image: ignoredImage, imageAttribution: ignoredImageAttribution, ...normalized } = normalizeRecipe(record);
           const { kind: ignoredKind, ...source } = normalized.source;
           return JSON.stringify({ ...normalized, source });
         };
@@ -345,8 +426,9 @@ async function importFiles(files) {
       }
     } catch (error) { warnings.push(`${file.name}: ${error.message}`); }
   }
-  ui.importResult = `${count} recipe${count === 1 ? '' : 's'} imported.${skipped ? ` ${skipped} unchanged duplicate${skipped === 1 ? '' : 's'} skipped.` : ''}${warnings.length ? `\n\nPlease review:\n${warnings.join('\n')}` : ''}`;
-  persist(); render(); toast(count ? `${count} recipes added to your kitchen.` : 'No recipes added. See the import details.');
+  rebuildRecipes();
+  ui.importResult = `${count} recipe${count === 1 ? '' : 's'} imported.${skipped ? ` ${skipped} unchanged duplicate${skipped === 1 ? '' : 's'} skipped.` : ''}${lastPhotoUpdateCount ? ` Photos added to ${lastPhotoUpdateCount} existing recipe${lastPhotoUpdateCount === 1 ? '' : 's'}.` : ''}${warnings.length ? `\n\nPlease review:\n${warnings.join('\n')}` : ''}`;
+  persist(); render(); toast(count ? `${count} recipes added to your kitchen.` : lastPhotoUpdateCount ? `${lastPhotoUpdateCount} recipe photos added.` : 'No recipes added. See the import details.');
 }
 function openEditor(id = null) { previousFocus = document.activeElement; ui.modal = { type: 'editor', id }; renderModal(); }
 
@@ -405,6 +487,12 @@ document.addEventListener('input', event => {
   if (event.target.id === 'recipe-search') { ui.search = event.target.value; ui.visible = 24; render(); }
 });
 document.addEventListener('change', async event => {
+  if (event.target.id === 'recipe-sort' && RECIPE_SORT_OPTIONS.some(([value]) => value === event.target.value)) {
+    state.recipeSort = event.target.value;
+    ui.visible = 24;
+    persist();
+    render();
+  }
   if (event.target.id === 'modal-day' && ui.modal) ui.modal.day = event.target.value;
   if (event.target.classList.contains('move-day')) {
     const entry = state.plan.find(item => item.id === event.target.dataset.entry);
@@ -483,10 +571,41 @@ document.addEventListener('keydown', event => {
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   }
 });
-window.addEventListener('online', () => render());
-window.addEventListener('offline', () => render());
+document.addEventListener('load', event => {
+  const image = event.target;
+  if (!(image instanceof HTMLImageElement) || !image.classList.contains('recipe-photo')) return;
+  if (image.naturalWidth > 0) image.classList.add('is-loaded');
+}, true);
+document.addEventListener('error', event => {
+  const image = event.target;
+  if (!(image instanceof HTMLImageElement) || !image.classList.contains('recipe-photo')) return;
+  const failedUrl = image.src;
+  failedRecipePhotos.add(failedUrl);
+  // A card, a planned meal and an open recipe can share one photo. Switch all
+  // current copies to their illustration without triggering another request.
+  for (const candidate of document.querySelectorAll('.recipe-photo')) {
+    if (candidate.src !== failedUrl) continue;
+    const frame = candidate.closest('.recipe-visual');
+    frame?.classList.remove('has-photo');
+    frame?.classList.add('photo-unavailable');
+    frame?.querySelector('.recipe-visual-fallback')?.removeAttribute('aria-hidden');
+    candidate.remove();
+  }
+  for (const credit of document.querySelectorAll('[data-photo-credit-url]')) {
+    if (credit.dataset.photoCreditUrl === failedUrl) credit.hidden = true;
+  }
+}, true);
+window.addEventListener('online', () => {
+  failedRecipePhotos.clear();
+  if (!appReady) return;
+  render();
+  if (ui.modal?.type === 'recipe') renderModal();
+  if (!recipePhotoUpdates.length) void refreshRecipePhotos();
+});
+window.addEventListener('offline', () => { if (appReady) render(); });
 async function start() {
   try {
+    const photoCatalogPromise = loadRecipePhotoCatalog();
     const response = await fetch('./data/recipes.json');
     if (!response.ok) throw new Error(`Recipe data could not load (HTTP ${response.status}).`);
     const data = await response.json();
@@ -503,8 +622,13 @@ async function start() {
       if (saved) state = normalizeSavedState(saved);
     }
     catch { ui.storageWarning = 'The saved browser data could not be read. Your original recipes are available; restore a backup to recover your saved kitchen.'; }
-    const added = rebuildRecipes(); render();
-    if (added) { persist(); toast(`${added} new included recipe${added === 1 ? '' : 's'} added. Your saved recipe versions are unchanged.`); }
+    const added = rebuildRecipes();
+    appReady = true;
+    render();
+    if (added || photoCollectionsChanged) persist();
+    if (added) toast(`${added} new included recipe${added === 1 ? '' : 's'} added. Your saved recipe versions are unchanged.`);
+    // Optional photography never delays meal planning or offline setup.
+    void refreshRecipePhotos(photoCatalogPromise);
     if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
       try {
         await navigator.serviceWorker.register('./sw.js');

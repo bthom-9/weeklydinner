@@ -134,6 +134,18 @@ function sourceDate(value) {
   return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === s ? s : '';
 }
 
+function normalizeImageAttribution(value) {
+  if (!value || typeof value !== 'object') return null;
+  const credit = stripMarkup(value.credit), sourceUrl = safeSourceUrl(value.sourceUrl);
+  if (!credit || !sourceUrl) return null;
+  return {
+    credit, sourceUrl,
+    ...(text(value.license) && { license: stripMarkup(value.license) }),
+    ...(safeSourceUrl(value.licenseUrl) && { licenseUrl: safeSourceUrl(value.licenseUrl) }),
+    ...(sourceDate(value.retrievedAt) && { retrievedAt: sourceDate(value.retrievedAt) })
+  };
+}
+
 // Optional review data must never turn a missing, invalid or unrated value into
 // a credible-looking badge. Ratings describe the cited source recipe, including
 // when a cook later adapts the recipe saved in this app.
@@ -145,6 +157,56 @@ function normalizeRating(value, fallbackUrl) {
   const sourceUrl = safeSourceUrl(value.sourceUrl) || safeSourceUrl(fallbackUrl);
   if (!Number.isFinite(score) || !Number.isFinite(best) || best <= 0 || score <= 0 || score > best || !Number.isSafeInteger(count) || count < 1 || !sourceUrl) return null;
   return { value: score, count, best, sourceUrl, ...(sourceDate(value.retrievedAt) && { retrievedAt: sourceDate(value.retrievedAt) }) };
+}
+
+// The prior is a sorting preference, not additional source reviews. Keep it
+// separate from source ratings so the original score and count never change.
+export const RATING_PRIOR_STARS = 4;
+export const RATING_PRIOR_COUNT = 50;
+
+/** Return source stars on a five-point scale and a review-weighted sort score. */
+export function recipeRatingStats(recipe) {
+  const rating = normalizeRating(recipe?.rating, recipe?.source?.url);
+  if (!rating) return null;
+  // Divide first so valid, very large source scales cannot overflow at 5*value.
+  const stars = 5 * (rating.value / rating.best);
+  const total = rating.count + RATING_PRIOR_COUNT;
+  const observedWeight = rating.count / total;
+  const priorWeight = RATING_PRIOR_COUNT / total;
+  // Bounded convex weights avoid multiplying a large count by a source score.
+  const weightedScore = observedWeight * stars + priorWeight * RATING_PRIOR_STARS;
+  return { stars, count: rating.count, weightedScore };
+}
+
+const recipeTitleCollator = new Intl.Collator('en', { sensitivity: 'base' });
+function compareRecipeTitles(a, b) {
+  const byTitle = recipeTitleCollator.compare(text(a?.title), text(b?.title));
+  if (byTitle) return byTitle;
+  const aId = text(a?.id), bId = text(b?.id);
+  return aId < bId ? -1 : aId > bId ? 1 : 0;
+}
+
+/** Sort a new array without changing recipes, source ratings, or input order. */
+export function sortRecipes(recipes, mode = 'weighted') {
+  const selected = ['weighted', 'stars', 'reviews', 'title', 'collection'].includes(mode) ? mode : 'weighted';
+  if (selected === 'collection') return [...recipes];
+  if (selected === 'title') return [...recipes].sort(compareRecipeTitles);
+  return recipes.map(recipe => ({ recipe, stats: recipeRatingStats(recipe) }))
+    .sort((a, b) => {
+      if (!a.stats || !b.stats) {
+        if (a.stats) return -1;
+        if (b.stats) return 1;
+        return compareRecipeTitles(a.recipe, b.recipe);
+      }
+      const x = a.stats, y = b.stats;
+      const difference = selected === 'weighted'
+        ? y.weightedScore - x.weightedScore || y.stars - x.stars || y.count - x.count
+        : selected === 'stars'
+          ? y.stars - x.stars || y.count - x.count
+          : y.count - x.count || y.stars - x.stars;
+      return difference || compareRecipeTitles(a.recipe, b.recipe);
+    })
+    .map(entry => entry.recipe);
 }
 
 export function normalizeRecipe(input) {
@@ -166,6 +228,8 @@ export function normalizeRecipe(input) {
     ...(sourceDate(rawSource.retrievedAt) && { retrievedAt: sourceDate(rawSource.retrievedAt) })
   };
   const rating = normalizeRating(input.rating, source.url);
+  const image = safeImage(input.image);
+  const imageAttribution = image && normalizeImageAttribution(input.imageAttribution);
   const recipe = {
     id: text(input.id) || `recipe-${hash(`${title}|${source.url}|${servings}`)}`,
     title, description: text(input.description), servings,
@@ -173,7 +237,8 @@ export function normalizeRecipe(input) {
     tags: (Array.isArray(input.tags) ? input.tags : []).map(text).filter(Boolean),
     category: text(input.category) || 'Dinner', ingredients, steps, source,
     ...(rating && { rating }),
-    ...(safeImage(input.image) && { image: safeImage(input.image) }),
+    ...(image && { image }),
+    ...(imageAttribution && { imageAttribution }),
     ...(/^#[0-9a-f]{3,8}$/i.test(text(input.color)) && { color: text(input.color) })
   };
   if (input.variants && typeof input.variants === 'object') {
@@ -190,6 +255,31 @@ export function normalizeRecipe(input) {
     }
   }
   return recipe;
+}
+
+/** Fill a missing photo only when both the stable recipe ID and source match.
+ * Photographs never replace a saved recipe's food, source rating, or own image.
+ */
+export function applyRecipePhotoUpdates(records, updates = []) {
+  const byId = new Map();
+  for (const update of Array.isArray(updates) ? updates : []) {
+    if (!update || typeof update !== 'object') continue;
+    const id = text(update.id), sourceUrl = safeSourceUrl(update.recipeSourceUrl);
+    const image = safeImage(update.image), imageAttribution = normalizeImageAttribution(update.imageAttribution);
+    if (!id || !sourceUrl || !image || !imageAttribution) continue;
+    // Conflicting catalog entries must not silently choose a photograph.
+    if (byId.has(id)) { byId.set(id, null); continue; }
+    byId.set(id, { sourceUrl, image, imageAttribution });
+  }
+  const updatedIds = [];
+  const recipes = records.map(recipe => {
+    if (safeImage(recipe.image)) return recipe;
+    const update = byId.get(recipe.id);
+    if (!update || safeSourceUrl(recipe.source?.url) !== update.sourceUrl) return recipe;
+    updatedIds.push(recipe.id);
+    return { ...recipe, image: update.image, imageAttribution: { ...update.imageAttribution } };
+  });
+  return { recipes, updatedIds };
 }
 
 /** Add newly shipped recipes without changing a saved recipe or personal import. */
