@@ -1,3 +1,8 @@
+> Collection update, October 26, 2026: the app now includes 28 reader-rated
+> adaptations in addition to its 12 original recipes. See
+> [Recipe collection](RECIPE_COLLECTION.md) for this separate expansion.
+> The Mealime findings below still describe that source audit.
+
 # Mealime source and preservation audit
 
 **Checked October 26, 2026. The full Mealime dataset, including its Pro collection, was NOT downloaded and is NOT included in this repository.**

@@ -1,0 +1,570 @@
+{
+  "verifiedAt": "2026-10-26",
+  "selection": {
+    "minimumRating": 4.5,
+    "ratingScale": 5,
+    "minimumVoteCount": 10
+  },
+  "recipes": [
+    {
+      "id": "joc-butter-shoyu-chicken",
+      "title": "Butter shoyu chicken",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/butter-shoyu-chicken/",
+      "rating": {
+        "value": 4.78,
+        "count": 170,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/butter-shoyu-chicken/"
+      },
+      "publishedYield": "2",
+      "appBaseServings": 2,
+      "publishedTiming": 25,
+      "appMinutes": 25,
+      "adaptations": "Independently condensed instructions. Sake entries combined; poultry temperature check added. Unspecified sides omitted.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-oyakodon",
+      "title": "Oyakodon — chicken & egg rice bowls",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/oyakodon/",
+      "rating": {
+        "value": 4.72,
+        "count": 657,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/oyakodon/"
+      },
+      "publishedYield": "2",
+      "appBaseServings": 2,
+      "publishedTiming": 25,
+      "appMinutes": 25,
+      "adaptations": "Independently condensed instructions. Uses 4 eggs from the source range of 3–4. Cooked rice uses the source gram measure; optional spices omitted. Eggs cooked through.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-chicken-teriyaki",
+      "title": "Chicken teriyaki",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/chicken-teriyaki/",
+      "rating": {
+        "value": 4.75,
+        "count": 394,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/chicken-teriyaki/"
+      },
+      "publishedYield": "2",
+      "appBaseServings": 2,
+      "publishedTiming": 20,
+      "appMinutes": 20,
+      "adaptations": "Independently condensed instructions. Uses 1 lb from source range ¾–1 lb; skinless method. Optional torch finish and unquantified sides omitted.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-gyudon",
+      "title": "Gyudon — Japanese beef rice bowls",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/gyudon/",
+      "rating": {
+        "value": 4.74,
+        "count": 537,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/gyudon/"
+      },
+      "publishedYield": "2",
+      "appBaseServings": 2,
+      "publishedTiming": 20,
+      "appMinutes": 20,
+      "adaptations": "Independently condensed instructions. Uses the source cooked-rice weight. Optional pickled-ginger garnish omitted; no dry-rice conversion assumed.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-hamburger-steak-hambagu",
+      "title": "Hambagu — Japanese hamburger steaks",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/hamburger-steak-hambagu/",
+      "rating": {
+        "value": 4.81,
+        "count": 331,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/hamburger-steak-hambagu/"
+      },
+      "publishedYield": "4 patties",
+      "appBaseServings": 4,
+      "publishedTiming": "50 plus 30 minutes chilling",
+      "appMinutes": 80,
+      "adaptations": "Condensed method; source 2:1 beef:pork option. Minimum water; sides omitted. Total includes 30-minute chilling. Temperature check added.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-tori-soboro-donburi",
+      "title": "Soboro don — chicken & egg bowls",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/tori-soboro-donburi/",
+      "rating": {
+        "value": 4.79,
+        "count": 162,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/tori-soboro-donburi/"
+      },
+      "publishedYield": "2",
+      "appBaseServings": 2,
+      "publishedTiming": 30,
+      "appMinutes": 30,
+      "adaptations": "Independently condensed instructions. Uses the lower chicken-sugar amount, 1 tbsp; combined sugar total includes the eggs. Ginger uses the source grated measure; optional ginger pickle omitted.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-pan-fried-curry-chicken",
+      "title": "Pan-fried curry chicken",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/pan-fried-curry-chicken/",
+      "rating": {
+        "value": 4.93,
+        "count": 14,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/pan-fried-curry-chicken/"
+      },
+      "publishedYield": "2",
+      "appBaseServings": 2,
+      "publishedTiming": 20,
+      "appMinutes": 20,
+      "adaptations": "Independently condensed instructions. Optional dipping mayonnaise, garnish and unquantified sides omitted. Poultry-temperature check added. Source cautions that scaled sauce may be salty; quantities remain linear estimates.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-simple-chicken-curry",
+      "title": "Japanese chicken curry",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/simple-chicken-curry/",
+      "rating": {
+        "value": 4.62,
+        "count": 1655,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/simple-chicken-curry/"
+      },
+      "publishedYield": "8",
+      "appBaseServings": 8,
+      "publishedTiming": 70,
+      "appMinutes": 70,
+      "adaptations": "Independently condensed instructions. Chooses 200 g roux from source range 200–230 g. App specifies cooked rice at 200 g per person; source gives portions without weight. Pickles omitted.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "sp-beef-and-broccoli",
+      "title": "Beef and Broccoli",
+      "source": "Striped Spatula",
+      "author": "Amanda Biddle / Striped Spatula",
+      "url": "https://stripedspatula.com/beef-and-broccoli-recipe/",
+      "rating": {
+        "value": 4.91,
+        "count": 11,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://stripedspatula.com/beef-and-broccoli-recipe/"
+      },
+      "publishedYield": "4 servings",
+      "appBaseServings": 4,
+      "publishedTiming": "60 minutes",
+      "appMinutes": 60,
+      "adaptations": "Method condensed. Lower sauce-soy quantity selected. Rice and optional pepper omitted.",
+      "sourcePolicy": "https://stripedspatula.com/about/faq/"
+    },
+    {
+      "id": "sp-ground-beef-stroganoff",
+      "title": "Ground Beef Stroganoff",
+      "source": "Striped Spatula",
+      "author": "Amanda Biddle / Striped Spatula",
+      "url": "https://stripedspatula.com/ground-beef-stroganoff/",
+      "rating": {
+        "value": 4.94,
+        "count": 15,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://stripedspatula.com/ground-beef-stroganoff/"
+      },
+      "publishedYield": "4 to 6 servings",
+      "appBaseServings": 4,
+      "publishedTiming": "30 minutes",
+      "appMinutes": 30,
+      "adaptations": "Source yield 4–6; app uses 4 generous portions. Lower butter, oil, paprika and cream chosen; full broth allowance. Optional lemon omitted.",
+      "sourcePolicy": "https://stripedspatula.com/about/faq/"
+    },
+    {
+      "id": "sp-pork-chops-marsala",
+      "title": "Pork Chops Marsala",
+      "source": "Striped Spatula",
+      "author": "Amanda Biddle / Striped Spatula",
+      "url": "https://stripedspatula.com/creamy-pork-chops-marsala/",
+      "rating": {
+        "value": 4.94,
+        "count": 16,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://stripedspatula.com/creamy-pork-chops-marsala/"
+      },
+      "publishedYield": "4 people",
+      "appBaseServings": 4,
+      "publishedTiming": "40 minutes",
+      "appMinutes": 40,
+      "adaptations": "Instructions independently condensed. Mushrooms set to the upper end of the source range. Optional garnish and sides omitted.",
+      "sourcePolicy": "https://stripedspatula.com/about/faq/"
+    },
+    {
+      "id": "sp-maine-lobster-rolls",
+      "title": "Maine Lobster Rolls",
+      "source": "Striped Spatula",
+      "author": "Amanda Biddle / Striped Spatula",
+      "url": "https://stripedspatula.com/maine-lobster-rolls/",
+      "rating": {
+        "value": 5,
+        "count": 17,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://stripedspatula.com/maine-lobster-rolls/"
+      },
+      "publishedYield": "4 lobster rolls",
+      "appBaseServings": 4,
+      "publishedTiming": "2 hours 20 minutes",
+      "appMinutes": 140,
+      "adaptations": "Instructions independently condensed. Mayonnaise uses the upper range. Optional celery, lettuce and lemon omitted. Source timing includes preparing lobster; the app starts with cooked meat.",
+      "sourcePolicy": "https://stripedspatula.com/about/faq/"
+    },
+    {
+      "id": "sp-linguine-with-clams",
+      "title": "Linguine with Clams",
+      "source": "Striped Spatula",
+      "author": "Amanda Biddle / Striped Spatula",
+      "url": "https://stripedspatula.com/linguine-with-clams/",
+      "rating": {
+        "value": 5,
+        "count": 30,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://stripedspatula.com/linguine-with-clams/"
+      },
+      "publishedYield": "4 servings",
+      "appBaseServings": 4,
+      "publishedTiming": "1 hour 5 minutes",
+      "appMinutes": 65,
+      "adaptations": "Instructions independently condensed. Clams and garlic use upper ranges; pepper uses lower range. Extra oil, lemon wedges and bread omitted.",
+      "sourcePolicy": "https://stripedspatula.com/about/faq/"
+    },
+    {
+      "id": "sp-shrimp-lo-mein",
+      "title": "Shrimp Lo Mein",
+      "source": "Striped Spatula",
+      "author": "Amanda Biddle / Striped Spatula",
+      "url": "https://stripedspatula.com/shrimp-lo-mein/",
+      "rating": {
+        "value": 5,
+        "count": 17,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://stripedspatula.com/shrimp-lo-mein/"
+      },
+      "publishedYield": "4 to 6 people",
+      "appBaseServings": 4,
+      "publishedTiming": "30 minutes",
+      "appMinutes": 30,
+      "adaptations": "Instructions independently condensed. Source serves 4–6; app selects 4 larger portions. Fresh noodles selected. Optional table sauces omitted.",
+      "sourcePolicy": "https://stripedspatula.com/about/faq/"
+    },
+    {
+      "id": "joc-teriyaki-salmon",
+      "title": "Teriyaki Salmon",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/teriyaki-salmon-recipe/",
+      "rating": {
+        "value": 4.84,
+        "count": 403,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/teriyaki-salmon-recipe/"
+      },
+      "publishedYield": "2",
+      "appBaseServings": 2,
+      "publishedTiming": "15 minutes",
+      "appMinutes": 15,
+      "adaptations": "Instructions independently condensed. Uses the source-mentioned 63°C fish safety endpoint, rather than its preferred lower endpoint. Sides omitted.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-miso-salmon",
+      "title": "Miso Salmon",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/miso-salmon/",
+      "rating": {
+        "value": 4.75,
+        "count": 644,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/miso-salmon/"
+      },
+      "publishedYield": "2",
+      "appBaseServings": 2,
+      "publishedTiming": "20 minutes + 1 hour marinating",
+      "appMinutes": 80,
+      "adaptations": "Instructions independently condensed. 80 minutes includes minimum marinating time. Uses 63°C fish endpoint; garnish included. Rice omitted.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-ginger-pork",
+      "title": "Ginger Pork (Shogayaki)",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/ginger-pork-shogayaki/",
+      "rating": {
+        "value": 4.75,
+        "count": 180,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/ginger-pork-shogayaki/"
+      },
+      "publishedYield": "2",
+      "appBaseServings": 2,
+      "publishedTiming": "20 minutes",
+      "appMinutes": 20,
+      "adaptations": "Instructions independently condensed. Oil uses upper range; optional ginger pulp and pepper omitted. Rice and cabbage omitted.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-tonteki",
+      "title": "Tonteki Pork Steaks",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/tonteki/",
+      "rating": {
+        "value": 4.8,
+        "count": 30,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/tonteki/"
+      },
+      "publishedYield": "2",
+      "appBaseServings": 2,
+      "publishedTiming": "25 minutes",
+      "appMinutes": 25,
+      "adaptations": "Instructions independently condensed. Optional cabbage and tomato included; parsley omitted. Source onion wedge includes a grating handhold.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "sp-cream-of-mushroom-soup",
+      "title": "Cream of Mushroom Soup",
+      "source": "Striped Spatula",
+      "author": "Amanda Biddle / Striped Spatula",
+      "url": "https://stripedspatula.com/homemade-cream-of-mushroom-soup/",
+      "rating": {
+        "value": 4.93,
+        "count": 41,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://stripedspatula.com/homemade-cream-of-mushroom-soup/"
+      },
+      "publishedYield": "4–6 servings",
+      "appBaseServings": 4,
+      "publishedTiming": 70,
+      "appMinutes": 70,
+      "adaptations": "Instructions condensed independently. Source yields 4–6; app uses 4 larger portions. Vegetable broth and upper thyme amount selected.",
+      "sourcePolicy": "https://stripedspatula.com/about/faq/"
+    },
+    {
+      "id": "sp-sun-dried-tomato-pasta-salad",
+      "title": "Sun-Dried Tomato Pasta Salad",
+      "source": "Striped Spatula",
+      "author": "Amanda Biddle / Striped Spatula",
+      "url": "https://stripedspatula.com/sun-dried-tomato-pasta-salad/",
+      "rating": {
+        "value": 5,
+        "count": 14,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://stripedspatula.com/sun-dried-tomato-pasta-salad/"
+      },
+      "publishedYield": "6–8 servings",
+      "appBaseServings": 6,
+      "publishedTiming": 50,
+      "appMinutes": 50,
+      "adaptations": "Instructions condensed independently. Source yields 6–8; app uses 6. Optional pepper flakes omitted.",
+      "sourcePolicy": "https://stripedspatula.com/about/faq/"
+    },
+    {
+      "id": "sp-chickpea-feta-salad",
+      "title": "Chickpea and Feta Salad",
+      "source": "Striped Spatula",
+      "author": "Amanda Biddle / Striped Spatula",
+      "url": "https://stripedspatula.com/chickpea-and-feta-salad/",
+      "rating": {
+        "value": 5,
+        "count": 12,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://stripedspatula.com/chickpea-and-feta-salad/"
+      },
+      "publishedYield": "4–6 servings",
+      "appBaseServings": 4,
+      "publishedTiming": 70,
+      "appMinutes": 70,
+      "adaptations": "Instructions condensed independently. Source yields 4–6; app uses 4. Upper oil amount selected; time includes chilling.",
+      "sourcePolicy": "https://stripedspatula.com/about/faq/"
+    },
+    {
+      "id": "joc-soba-noodle-salad",
+      "title": "Soba Noodle Salad",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/soba-salad/",
+      "rating": {
+        "value": 4.76,
+        "count": 216,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/soba-salad/"
+      },
+      "publishedYield": "2 servings",
+      "appBaseServings": 2,
+      "publishedTiming": 15,
+      "appMinutes": 15,
+      "adaptations": "Instructions condensed independently. Honey selected; extra vegetables or proteins are not included.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-vegetarian-ramen",
+      "title": "Vegetarian Ramen",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/vegetarian-ramen/",
+      "rating": {
+        "value": 4.82,
+        "count": 411,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/vegetarian-ramen/"
+      },
+      "publishedYield": "2 servings",
+      "appBaseServings": 2,
+      "publishedTiming": 30,
+      "appMinutes": 60,
+      "adaptations": "Instructions condensed independently. Two small shiitake selected. Time includes soaking. Optional toppings omitted.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-kitsune-udon",
+      "title": "Kitsune Udon with Kombu Broth",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/kitsune-udon/",
+      "rating": {
+        "value": 4.6,
+        "count": 173,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/kitsune-udon/"
+      },
+      "publishedYield": "2 servings",
+      "appBaseServings": 2,
+      "publishedTiming": 20,
+      "appMinutes": 20,
+      "adaptations": "Instructions condensed independently. Published vegetarian option: bonito and fishcake omitted. Uses packaged seasoned tofu; optional soaking and spice omitted.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-vegan-poke-bowl",
+      "title": "Vegan Poke Bowl",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/vegan-poke-bowl/",
+      "rating": {
+        "value": 4.69,
+        "count": 35,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/vegan-poke-bowl/"
+      },
+      "publishedYield": "2 servings",
+      "appBaseServings": 2,
+      "publishedTiming": 20,
+      "appMinutes": 20,
+      "adaptations": "Instructions condensed independently. Uses already-cooked rice and edamame; their cooking time is excluded.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-soy-glazed-eggplant-donburi",
+      "title": "Soy-Glazed Eggplant Donburi",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/soy-glazed-eggplant-donburi/",
+      "rating": {
+        "value": 4.71,
+        "count": 247,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/soy-glazed-eggplant-donburi/"
+      },
+      "publishedYield": "2 servings",
+      "appBaseServings": 2,
+      "publishedTiming": 20,
+      "appMinutes": 35,
+      "adaptations": "Instructions condensed independently. Published scallion and cornstarch alternatives selected. Time includes salting; rice is already cooked.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-creamy-miso-tofu-pasta",
+      "title": "Creamy Miso Pasta with Tofu and Asparagus",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/creamy-miso-pasta-with-tofu-and-asparagus/",
+      "rating": {
+        "value": 4.78,
+        "count": 63,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/creamy-miso-pasta-with-tofu-and-asparagus/"
+      },
+      "publishedYield": "2 servings",
+      "appBaseServings": 2,
+      "publishedTiming": 20,
+      "appMinutes": 20,
+      "adaptations": "Instructions condensed independently. Optional shichimi omitted; pasta cooking water is reserved for sauce.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    },
+    {
+      "id": "joc-kabocha-macaroni-gratin",
+      "title": "Kabocha Macaroni Gratin",
+      "source": "Just One Cookbook",
+      "author": "Namiko Hirasawa Chen / Just One Cookbook",
+      "url": "https://www.justonecookbook.com/kabocha-gratin/",
+      "rating": {
+        "value": 4.81,
+        "count": 31,
+        "best": 5,
+        "retrievedAt": "2026-10-26",
+        "sourceUrl": "https://www.justonecookbook.com/kabocha-gratin/"
+      },
+      "publishedYield": "8 individual gratin dishes",
+      "appBaseServings": 8,
+      "publishedTiming": 75,
+      "appMinutes": 75,
+      "adaptations": "Instructions independently condensed. Source: 8 individual dishes; macaroni included, garnish omitted.",
+      "sourcePolicy": "https://www.justonecookbook.com/terms-and-conditions/"
+    }
+  ]
+}
