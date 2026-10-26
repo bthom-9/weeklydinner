@@ -47,4 +47,4 @@ const assets = files.filter(file => file.startsWith('assets/')).map(file => `./$
 await writeFile(resolve(output, 'offline-assets.json'), JSON.stringify({ version: buildId, assets }, null, 2));
 let size = 0;
 for (const file of files) size += (await stat(resolve(output, file))).size;
-console.log(`Built ${files.length + 1} files; ${data.recipes.length} original starter recipes; ${Math.round(size / 1024)} KiB; version ${buildId}`);
+console.log(`Built ${files.length + 1} files; ${data.recipes.length} bundled recipes; ${Math.round(size / 1024)} KiB; version ${buildId}`);
