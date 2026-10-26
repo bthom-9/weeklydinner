@@ -152,17 +152,19 @@ test('local Monday dates and week shifts cross month and year correctly', () => 
   assert.equal(shiftWeek('2026-10-26', -1), '2026-10-19');
 });
 
-test('all 12 bundled original recipes validate and produce six-serving lists', () => {
+test('the full bundled collection validates and the 12 original starters remain intact', () => {
   const data = JSON.parse(readFileSync(new URL('../data/recipes.json', import.meta.url), 'utf8'));
-  assert.equal(data.recipes.length, 12);
   const recipes = data.recipes.map(normalizeRecipe);
-  assert.equal(new Set(recipes.map(r => r.id)).size, 12);
+  assert.equal(new Set(recipes.map(r => r.id)).size, recipes.length);
   for (const r of recipes) {
-    assert.equal(r.source.kind, 'original'); assert.equal(r.servings, 2);
-    assert.ok(r.steps.length >= 8);
-    assert.equal(scaleRecipe(r, 6).ingredients.length, r.ingredients.length);
+    for (const count of [2, 4, 6]) assert.equal(scaleRecipe(r, count).ingredients.length, r.variants?.[count]?.ingredients.length ?? r.ingredients.length);
   }
-  const rows = buildShoppingList(recipes.slice(0, 5).map(r => plan(r.id, 6)), recipes);
+  const originals = recipes.filter(r => r.source.kind === 'original');
+  assert.equal(originals.length, 12);
+  for (const r of originals) {
+    assert.equal(r.servings, 2); assert.ok(r.steps.length >= 8);
+  }
+  const rows = buildShoppingList(originals.slice(0, 5).map(r => plan(r.id, 6)), recipes);
   assert.ok(rows.length > 10); assert.ok(rows.every(r => r.quantity !== null && r.quantity >= 0));
   assert.equal(formatAmount(1500, 'g'), '1½ kg');
 });
