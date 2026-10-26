@@ -20,6 +20,28 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-This license covers Weektable's original application code, illustrations,
-documentation, and original starter recipes. It grants no rights to third-party
-recipe text, photographs, trademarks, or data imported separately by a user.
+Scope and recipe content
+
+The MIT grant above covers Weektable's original application code, illustrations,
+documentation, and 12 original starter recipes. Those 12 recipe records also
+retain the CC0 notices in their source metadata.
+
+The 28 credited source adaptations in data/recipes.json and
+recipe-packs/reader-favourites.json are excluded from this MIT grant and from
+the original recipes' CC0 notices. This exclusion also applies to the same
+records in the separately supplied weektable-recipe-pack.json.
+
+The sourced records use factual ingredient quantities and newly written cooking
+summaries, with original-source attribution and links to publisher policies.
+They are supplied for personal, noncommercial recipe planning, not as an
+open-licensed collection. Rights in the source recipes and publisher materials
+remain with their respective rights holders. No source photography or blog
+narrative is included. Review source policies before redistributing the recipe
+collection or using it commercially; inclusion in this repository does not
+itself grant additional source-content rights.
+
+See docs/RECIPE_COLLECTION.md and docs/RECIPE_SOURCES.json, together with each
+recipe's source.licenseUrl, for provenance, adaptations, and relevant policies.
+This license also grants no rights to third-party photographs, trademarks, or
+material imported separately by a user. Attribution and source ratings do not
+imply endorsement of Weektable by the source publishers.
