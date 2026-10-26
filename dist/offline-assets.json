@@ -1,0 +1,10 @@
+{
+  "version": "242648e54b617d34",
+  "assets": [
+    "./assets/icon-180.png",
+    "./assets/icon-192.png",
+    "./assets/icon-512.png",
+    "./assets/icon-maskable-512.png",
+    "./assets/icon.svg"
+  ]
+}
