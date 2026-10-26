@@ -1,5 +1,5 @@
-/* Offline app shell. Build replaces 242648e54b617d34 with a source-content hash. */
-const VERSION = '242648e54b617d34';
+/* Offline app shell. Build replaces e806daf2647bd253 with a source-content hash. */
+const VERSION = 'e806daf2647bd253';
 const SCOPE_KEY = encodeURIComponent(new URL(self.registration.scope).pathname);
 const CACHE_PREFIX = `weektable:${SCOPE_KEY}:`;
 const CACHE_NAME = `${CACHE_PREFIX}${VERSION}`;
