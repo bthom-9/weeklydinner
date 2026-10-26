@@ -1,0 +1,14 @@
+{
+  "name": "weektable",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Your own offline-friendly recipe book, weekly meal planner, and grocery list.",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/test.mjs"
+  },
+  "engines": { "node": ">=20" },
+  "license": "MIT"
+}
