@@ -5,7 +5,7 @@ const CACHE_PREFIX = `weektable:${SCOPE_KEY}:`;
 const CACHE_NAME = `${CACHE_PREFIX}${VERSION}`;
 const REQUIRED_FILES = [
   './', './index.html', './src/app.js', './src/core.js', './src/storage.js', './src/styles.css',
-  './data/recipes.json', './manifest.webmanifest',
+  './data/recipes.json', './data/recipe-photos.json', './manifest.webmanifest',
   './assets/icon-180.png', './assets/icon-192.png', './assets/icon-512.png',
   './assets/icon-maskable-512.png', './assets/icon.svg'
 ];
