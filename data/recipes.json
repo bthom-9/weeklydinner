@@ -1,0 +1,1176 @@
+{
+  "schemaVersion": 1,
+  "notice": "These are 12 original starter recipes written for Weektable. This file does not contain the Mealime recipe collection.",
+  "recipes": [
+    {
+      "id": "lemon-chicken-couscous",
+      "title": "Lemon chicken & herby couscous",
+      "description": "A bright skillet dinner with tender chicken, fluffy couscous and crisp cucumber.",
+      "servings": 2,
+      "minutes": 30,
+      "tags": [
+        "Chicken",
+        "Quick",
+        "Family-friendly"
+      ],
+      "category": "Dinner",
+      "color": "#E7ECCF",
+      "ingredients": [
+        {
+          "name": "chicken breast",
+          "quantity": 350,
+          "unit": "g",
+          "category": "Meat & seafood"
+        },
+        {
+          "name": "dry couscous",
+          "quantity": 150,
+          "unit": "g",
+          "category": "Grains & pasta"
+        },
+        {
+          "name": "cucumber",
+          "quantity": 150,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "cherry tomatoes",
+          "quantity": 150,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "lemon",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "garlic",
+          "quantity": 2,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "olive oil",
+          "quantity": 20,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "fresh parsley",
+          "quantity": 10,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "salt",
+          "quantity": 2,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "black pepper",
+          "quantity": 0.5,
+          "unit": "g",
+          "category": "Pantry"
+        }
+      ],
+      "steps": [
+        "Set out the ingredients and boil water for the couscous. Follow the packet for the water amount; different couscous types need different ratios.",
+        "Cut the chicken into even strips. Keep the chicken board and knife separate from the vegetables.",
+        "Finely chop the garlic. Zest the lemon, then cut it in half. Toss the chicken with half the oil, the garlic, lemon zest, salt and pepper.",
+        "Put the couscous in a heatproof bowl, add the packet-directed amount of boiling water and cover.",
+        "Heat a wide frying pan over medium-high heat. Add the chicken in a single layer; cook in batches if needed.",
+        "Turn the chicken as it browns and cook until its centre reaches 74°C. Remove it to a clean plate.",
+        "Dice the cucumber and tomatoes. Chop the parsley. Fluff the couscous and mix in the vegetables, parsley, remaining oil and lemon juice.",
+        "Divide the couscous between plates and add the chicken. For larger batches, allow extra pan time and cook the chicken in batches."
+      ],
+      "source": {
+        "name": "Weektable original starter recipe",
+        "url": "",
+        "kind": "original",
+        "license": "CC0-1.0"
+      }
+    },
+    {
+      "id": "salmon-broccoli-rice",
+      "title": "Roasted salmon, broccoli & rice",
+      "description": "One oven tray, a pot of rice and a simple lemon-mustard dressing.",
+      "servings": 2,
+      "minutes": 35,
+      "tags": [
+        "Fish",
+        "Family-friendly"
+      ],
+      "category": "Dinner",
+      "color": "#E7D9C9",
+      "ingredients": [
+        {
+          "name": "salmon fillet",
+          "quantity": 350,
+          "unit": "g",
+          "category": "Meat & seafood"
+        },
+        {
+          "name": "broccoli",
+          "quantity": 350,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "dry long-grain rice",
+          "quantity": 150,
+          "unit": "g",
+          "category": "Grains & pasta"
+        },
+        {
+          "name": "lemon",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "olive oil",
+          "quantity": 20,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "Dijon mustard",
+          "quantity": 10,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "honey",
+          "quantity": 10,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "salt",
+          "quantity": 2,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "black pepper",
+          "quantity": 0.5,
+          "unit": "g",
+          "category": "Pantry"
+        }
+      ],
+      "steps": [
+        "Heat the oven to 210°C and line a baking tray.",
+        "Cook the rice with water according to its packet directions.",
+        "Cut the broccoli into small florets. Slice the stalk thinly after removing its tough outer layer.",
+        "Toss the broccoli with half the oil and half the salt and spread it over the tray. Roast for 10 minutes.",
+        "Mix the remaining oil with the mustard, honey, juice from half the lemon and the pepper.",
+        "Move the broccoli aside. Put the salmon on the tray, season with the remaining salt and brush with the dressing.",
+        "Return the tray to the oven until the salmon reaches 63°C in its thickest part and the broccoli is tender, roughly 10–15 minutes depending on thickness.",
+        "Fluff the rice and serve with the salmon, broccoli and the remaining lemon cut into wedges. Use an additional tray for a larger batch."
+      ],
+      "source": {
+        "name": "Weektable original starter recipe",
+        "url": "",
+        "kind": "original",
+        "license": "CC0-1.0"
+      }
+    },
+    {
+      "id": "black-bean-tacos",
+      "title": "Smoky black bean tacos",
+      "description": "Warm tortillas filled with cumin beans, crunchy cabbage and lime yogurt.",
+      "servings": 2,
+      "minutes": 25,
+      "tags": [
+        "Vegetarian",
+        "Quick",
+        "Family-friendly"
+      ],
+      "category": "Dinner",
+      "color": "#ECDCC5",
+      "ingredients": [
+        {
+          "name": "canned black beans",
+          "quantity": 1,
+          "unit": "can",
+          "category": "Cans & jars",
+          "packageSize": "400 g",
+          "preparation": "drained"
+        },
+        {
+          "name": "small corn tortillas",
+          "quantity": 6,
+          "unit": "each",
+          "category": "Bakery"
+        },
+        {
+          "name": "red cabbage",
+          "quantity": 150,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "avocado",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "plain Greek yogurt",
+          "quantity": 80,
+          "unit": "g",
+          "category": "Dairy & eggs"
+        },
+        {
+          "name": "lime",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "yellow onion",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "garlic",
+          "quantity": 2,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "olive oil",
+          "quantity": 10,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "ground cumin",
+          "quantity": 2,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "smoked paprika",
+          "quantity": 2,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "salt",
+          "quantity": 2,
+          "unit": "g",
+          "category": "Pantry"
+        }
+      ],
+      "steps": [
+        "Drain and rinse the beans. Finely chop the onion and garlic.",
+        "Thinly slice the cabbage. Cut the avocado into slices and cut the lime in half.",
+        "Heat the oil in a saucepan over medium heat. Cook the onion until soft, then add the garlic, cumin and paprika.",
+        "Stir for 30 seconds, then add the beans, half the salt and a small splash of water.",
+        "Simmer gently for 5 minutes. Mash some beans with a spoon so the filling holds together.",
+        "Mix the yogurt with lime juice and the remaining salt. Keep some lime juice aside for the cabbage.",
+        "Warm the tortillas in a dry frying pan or according to their packet directions. Toss the cabbage with the reserved lime juice.",
+        "Fill the tortillas with beans, cabbage, avocado and lime yogurt. Keep the components separate until serving."
+      ],
+      "source": {
+        "name": "Weektable original starter recipe",
+        "url": "",
+        "kind": "original",
+        "license": "CC0-1.0"
+      }
+    },
+    {
+      "id": "tomato-spinach-pasta",
+      "title": "Creamy tomato & spinach pasta",
+      "description": "A comforting tomato sauce finished with cream cheese and a handful of spinach.",
+      "servings": 2,
+      "minutes": 25,
+      "tags": [
+        "Vegetarian",
+        "Quick",
+        "Family-friendly"
+      ],
+      "category": "Dinner",
+      "color": "#E7CDBE",
+      "ingredients": [
+        {
+          "name": "dry penne pasta",
+          "quantity": 180,
+          "unit": "g",
+          "category": "Grains & pasta"
+        },
+        {
+          "name": "canned chopped tomatoes",
+          "quantity": 1,
+          "unit": "can",
+          "category": "Cans & jars",
+          "packageSize": "400 g"
+        },
+        {
+          "name": "spinach",
+          "quantity": 100,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "cream cheese",
+          "quantity": 70,
+          "unit": "g",
+          "category": "Dairy & eggs"
+        },
+        {
+          "name": "Parmesan cheese",
+          "quantity": 30,
+          "unit": "g",
+          "category": "Dairy & eggs"
+        },
+        {
+          "name": "garlic",
+          "quantity": 2,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "olive oil",
+          "quantity": 10,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "dried oregano",
+          "quantity": 1,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "salt",
+          "quantity": 2,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "black pepper",
+          "quantity": 0.5,
+          "unit": "g",
+          "category": "Pantry"
+        }
+      ],
+      "steps": [
+        "Bring a large pot of water to a boil. Cook the pasta according to its packet directions.",
+        "Peel and finely chop the garlic. Rinse the spinach and grate the Parmesan.",
+        "Warm the oil in a wide saucepan over medium heat. Add the garlic and stir until fragrant, without letting it brown.",
+        "Add the tomatoes, oregano, salt and pepper. Bring to a gentle simmer and cook for 8 minutes.",
+        "Stir in the cream cheese until it melts into the sauce.",
+        "Before draining the pasta, save a mug of its cooking water.",
+        "Add the spinach to the sauce and stir until wilted. Fold in the drained pasta, loosening with a little reserved pasta water as needed.",
+        "Divide into bowls and finish with the Parmesan. Larger batches may need a larger pan for easy mixing."
+      ],
+      "source": {
+        "name": "Weektable original starter recipe",
+        "url": "",
+        "kind": "original",
+        "license": "CC0-1.0"
+      }
+    },
+    {
+      "id": "sesame-tofu-bowls",
+      "title": "Sesame tofu rice bowls",
+      "description": "Crisp-edged tofu with broccoli, carrots and a glossy ginger-soy sauce.",
+      "servings": 2,
+      "minutes": 35,
+      "tags": [
+        "Vegetarian",
+        "Vegan"
+      ],
+      "category": "Dinner",
+      "color": "#DDE3C7",
+      "ingredients": [
+        {
+          "name": "firm tofu",
+          "quantity": 350,
+          "unit": "g",
+          "category": "Other"
+        },
+        {
+          "name": "dry long-grain rice",
+          "quantity": 150,
+          "unit": "g",
+          "category": "Grains & pasta"
+        },
+        {
+          "name": "broccoli",
+          "quantity": 250,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "carrots",
+          "quantity": 150,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "garlic",
+          "quantity": 2,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "fresh ginger",
+          "quantity": 15,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "soy sauce",
+          "quantity": 30,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "rice vinegar",
+          "quantity": 15,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "maple syrup",
+          "quantity": 10,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "sesame oil",
+          "quantity": 10,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "cornstarch",
+          "quantity": 15,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "neutral oil",
+          "quantity": 15,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "sesame seeds",
+          "quantity": 8,
+          "unit": "g",
+          "category": "Pantry"
+        }
+      ],
+      "steps": [
+        "Cook the rice according to the packet directions.",
+        "Drain the tofu, pat it dry and cut into bite-size cubes. Toss with the cornstarch.",
+        "Cut the broccoli into small florets and the carrots into thin slices. Finely chop the garlic and ginger.",
+        "Mix the soy sauce, rice vinegar, maple syrup and sesame oil in a bowl.",
+        "Heat the neutral oil in a wide frying pan. Add the tofu in a single layer and turn until golden on several sides. Transfer to a plate.",
+        "Add the broccoli and carrots to the pan with a splash of water. Cover briefly to steam, then uncover and cook until just tender.",
+        "Add the garlic and ginger. Stir for 30 seconds, return the tofu and pour in the sauce. Toss until everything is coated and hot.",
+        "Serve over the rice with sesame seeds. Use batches when scaling up so the tofu has room to brown."
+      ],
+      "source": {
+        "name": "Weektable original starter recipe",
+        "url": "",
+        "kind": "original",
+        "license": "CC0-1.0"
+      }
+    },
+    {
+      "id": "turkey-sweet-potato-skillet",
+      "title": "Turkey & sweet potato skillet",
+      "description": "A hearty one-pan dinner with peppers, cumin and a little melted cheddar.",
+      "servings": 2,
+      "minutes": 35,
+      "tags": [
+        "Turkey",
+        "Family-friendly"
+      ],
+      "category": "Dinner",
+      "color": "#EBDAC4",
+      "ingredients": [
+        {
+          "name": "ground turkey",
+          "quantity": 350,
+          "unit": "g",
+          "category": "Meat & seafood"
+        },
+        {
+          "name": "sweet potato",
+          "quantity": 350,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "red bell pepper",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "yellow onion",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "garlic",
+          "quantity": 2,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "Cheddar cheese",
+          "quantity": 60,
+          "unit": "g",
+          "category": "Dairy & eggs"
+        },
+        {
+          "name": "olive oil",
+          "quantity": 15,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "ground cumin",
+          "quantity": 2,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "smoked paprika",
+          "quantity": 2,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "salt",
+          "quantity": 2,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "black pepper",
+          "quantity": 0.5,
+          "unit": "g",
+          "category": "Pantry"
+        }
+      ],
+      "steps": [
+        "Peel the sweet potato and cut it into small, even cubes. Dice the onion and bell pepper and finely chop the garlic.",
+        "Heat half the oil in a large lidded frying pan over medium heat. Add the sweet potato and a splash of water.",
+        "Cover and cook, stirring occasionally, until the potato is nearly tender. Add a little more water if the pan dries out.",
+        "Move the potato to a plate. Add the remaining oil, onion and pepper to the pan and cook until softened.",
+        "Add the turkey and break it up with a spoon. Cook until browned and the turkey reaches 74°C.",
+        "Stir in the garlic, cumin, paprika, salt and pepper, then return the sweet potato to the pan.",
+        "Cook until the potato is tender and everything is piping hot. Grate the cheese over the top.",
+        "Cover briefly to melt the cheese, then serve. With more servings, use a larger pan or two pans so the turkey cooks evenly."
+      ],
+      "source": {
+        "name": "Weektable original starter recipe",
+        "url": "",
+        "kind": "original",
+        "license": "CC0-1.0"
+      }
+    },
+    {
+      "id": "chickpea-coconut-curry",
+      "title": "Chickpea & spinach coconut curry",
+      "description": "A gentle coconut curry with chickpeas, tomatoes and soft spinach.",
+      "servings": 2,
+      "minutes": 30,
+      "tags": [
+        "Vegetarian",
+        "Vegan",
+        "Family-friendly"
+      ],
+      "category": "Dinner",
+      "color": "#E8DBB1",
+      "ingredients": [
+        {
+          "name": "canned chickpeas",
+          "quantity": 1,
+          "unit": "can",
+          "category": "Cans & jars",
+          "packageSize": "400 g",
+          "preparation": "drained"
+        },
+        {
+          "name": "coconut milk",
+          "quantity": 1,
+          "unit": "can",
+          "category": "Cans & jars",
+          "packageSize": "400 ml"
+        },
+        {
+          "name": "canned chopped tomatoes",
+          "quantity": 1,
+          "unit": "can",
+          "category": "Cans & jars",
+          "packageSize": "400 g"
+        },
+        {
+          "name": "spinach",
+          "quantity": 100,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "dry long-grain rice",
+          "quantity": 150,
+          "unit": "g",
+          "category": "Grains & pasta"
+        },
+        {
+          "name": "yellow onion",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "garlic",
+          "quantity": 2,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "fresh ginger",
+          "quantity": 15,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "mild curry powder",
+          "quantity": 8,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "neutral oil",
+          "quantity": 10,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "salt",
+          "quantity": 2,
+          "unit": "g",
+          "category": "Pantry"
+        }
+      ],
+      "steps": [
+        "Cook the rice according to its packet directions.",
+        "Drain and rinse the chickpeas. Chop the onion and finely chop the garlic and ginger.",
+        "Warm the oil in a saucepan over medium heat. Cook the onion until soft.",
+        "Add the garlic, ginger and curry powder and stir for 30 seconds.",
+        "Add the tomatoes, coconut milk, chickpeas and salt. Stir well and bring to a gentle simmer.",
+        "Simmer uncovered for about 12 minutes, stirring occasionally, until the sauce thickens slightly.",
+        "Rinse the spinach, stir it into the curry and cook until wilted. Add a small splash of water if the sauce becomes too thick.",
+        "Serve the curry alongside the rice. Refrigerate leftovers promptly in shallow containers."
+      ],
+      "source": {
+        "name": "Weektable original starter recipe",
+        "url": "",
+        "kind": "original",
+        "license": "CC0-1.0"
+      }
+    },
+    {
+      "id": "beef-mushroom-noodles",
+      "title": "Ginger beef & mushroom noodles",
+      "description": "Quick noodles with tender beef strips, mushrooms and a savoury soy glaze.",
+      "servings": 2,
+      "minutes": 30,
+      "tags": [
+        "Beef",
+        "Quick"
+      ],
+      "category": "Dinner",
+      "color": "#DDD3C2",
+      "ingredients": [
+        {
+          "name": "beef stir-fry strips",
+          "quantity": 300,
+          "unit": "g",
+          "category": "Meat & seafood"
+        },
+        {
+          "name": "dry egg noodles",
+          "quantity": 180,
+          "unit": "g",
+          "category": "Grains & pasta"
+        },
+        {
+          "name": "mushrooms",
+          "quantity": 200,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "carrots",
+          "quantity": 150,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "garlic",
+          "quantity": 2,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "fresh ginger",
+          "quantity": 15,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "soy sauce",
+          "quantity": 30,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "rice vinegar",
+          "quantity": 15,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "honey",
+          "quantity": 10,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "neutral oil",
+          "quantity": 15,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "cornstarch",
+          "quantity": 5,
+          "unit": "g",
+          "category": "Pantry"
+        }
+      ],
+      "steps": [
+        "Cook the noodles according to their packet directions, then drain.",
+        "Slice the mushrooms and cut the carrots into thin matchsticks. Finely chop the garlic and ginger.",
+        "Whisk the soy sauce, vinegar, honey and cornstarch with a little water to make a pourable sauce.",
+        "Heat half the oil in a wide pan over medium-high heat. Add the beef in batches and cook to your required safe doneness, then transfer to a clean plate.",
+        "Add the remaining oil to the pan. Cook the mushrooms and carrots until the mushrooms have browned and the carrots are tender-crisp.",
+        "Add the garlic and ginger and stir for 30 seconds.",
+        "Return the beef and any collected juices. Stir the sauce again, pour it into the pan and heat until bubbling and slightly thickened.",
+        "Add the noodles and toss until hot throughout. A larger batch is easier to combine in a large pot after cooking the beef in batches."
+      ],
+      "source": {
+        "name": "Weektable original starter recipe",
+        "url": "",
+        "kind": "original",
+        "license": "CC0-1.0"
+      }
+    },
+    {
+      "id": "roast-vegetable-quinoa",
+      "title": "Roasted vegetable, quinoa & feta bowls",
+      "description": "Colourful roasted vegetables with quinoa, chickpeas and lemony feta.",
+      "servings": 2,
+      "minutes": 40,
+      "tags": [
+        "Vegetarian",
+        "Family-friendly"
+      ],
+      "category": "Dinner",
+      "color": "#DDDDBF",
+      "ingredients": [
+        {
+          "name": "dry quinoa",
+          "quantity": 140,
+          "unit": "g",
+          "category": "Grains & pasta"
+        },
+        {
+          "name": "zucchini",
+          "quantity": 200,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "red bell pepper",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "red onion",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "canned chickpeas",
+          "quantity": 1,
+          "unit": "can",
+          "category": "Cans & jars",
+          "packageSize": "400 g",
+          "preparation": "drained"
+        },
+        {
+          "name": "feta cheese",
+          "quantity": 70,
+          "unit": "g",
+          "category": "Dairy & eggs"
+        },
+        {
+          "name": "lemon",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "olive oil",
+          "quantity": 20,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "dried oregano",
+          "quantity": 1,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "salt",
+          "quantity": 2,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "black pepper",
+          "quantity": 0.5,
+          "unit": "g",
+          "category": "Pantry"
+        }
+      ],
+      "steps": [
+        "Heat the oven to 210°C. Line a large baking tray.",
+        "Rinse the quinoa and cook it according to the packet directions.",
+        "Cut the zucchini and pepper into bite-size pieces. Peel the onion and cut it into wedges.",
+        "Drain and rinse the chickpeas. Dry them lightly with a clean towel.",
+        "Spread the vegetables and chickpeas over the tray. Toss with the oil, oregano, salt and pepper.",
+        "Roast for 20–25 minutes, turning once, until the vegetables are tender and browned at the edges.",
+        "Fluff the quinoa. Crumble the feta and squeeze the lemon.",
+        "Build bowls with quinoa, vegetables and chickpeas. Finish with feta and lemon juice. Use two trays for more servings rather than crowding one."
+      ],
+      "source": {
+        "name": "Weektable original starter recipe",
+        "url": "",
+        "kind": "original",
+        "license": "CC0-1.0"
+      }
+    },
+    {
+      "id": "egg-vegetable-fried-rice",
+      "title": "Egg & vegetable fried rice",
+      "description": "A flexible skillet supper with eggs, peas, carrots and spring onions.",
+      "servings": 2,
+      "minutes": 25,
+      "tags": [
+        "Vegetarian",
+        "Quick",
+        "Family-friendly"
+      ],
+      "category": "Dinner",
+      "color": "#E3DEBC",
+      "ingredients": [
+        {
+          "name": "cooked long-grain rice",
+          "quantity": 400,
+          "unit": "g",
+          "category": "Grains & pasta",
+          "note": "Use promptly chilled cooked rice, or freshly cooked rice spread briefly to steam-dry."
+        },
+        {
+          "name": "eggs",
+          "quantity": 4,
+          "unit": "each",
+          "category": "Dairy & eggs"
+        },
+        {
+          "name": "frozen peas",
+          "quantity": 150,
+          "unit": "g",
+          "category": "Frozen"
+        },
+        {
+          "name": "carrots",
+          "quantity": 150,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "spring onions",
+          "quantity": 3,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "garlic",
+          "quantity": 2,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "soy sauce",
+          "quantity": 25,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "sesame oil",
+          "quantity": 5,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "neutral oil",
+          "quantity": 15,
+          "unit": "ml",
+          "category": "Pantry"
+        }
+      ],
+      "steps": [
+        "Use cooked rice that has been safely chilled, or freshly cooked rice spread on a tray just long enough to release excess steam. Do not leave cooked rice sitting at room temperature.",
+        "Dice the carrots small. Slice the spring onions and chop the garlic.",
+        "Beat the eggs in a bowl. Heat a little of the neutral oil in a wide frying pan.",
+        "Scramble the eggs until set and transfer them to a plate.",
+        "Add the remaining neutral oil, carrots and peas. Stir-fry until the carrots are tender, adding a splash of water if needed.",
+        "Add the garlic and most of the spring onions. Stir briefly, then add the rice and break up clumps.",
+        "Add the soy sauce, sesame oil and scrambled eggs. Stir-fry until the rice is piping hot throughout; reheat chilled leftovers to 74°C.",
+        "Serve immediately with the remaining spring onions. Cook larger quantities in batches to heat the rice evenly."
+      ],
+      "source": {
+        "name": "Weektable original starter recipe",
+        "url": "",
+        "kind": "original",
+        "license": "CC0-1.0"
+      }
+    },
+    {
+      "id": "white-bean-lemon-soup",
+      "title": "Lemony white bean & vegetable soup",
+      "description": "A simple pot of white beans, carrots and spinach with toast on the side.",
+      "servings": 2,
+      "minutes": 35,
+      "tags": [
+        "Vegetarian",
+        "Family-friendly"
+      ],
+      "category": "Dinner",
+      "color": "#E4E2CA",
+      "ingredients": [
+        {
+          "name": "canned white beans",
+          "quantity": 1,
+          "unit": "can",
+          "category": "Cans & jars",
+          "packageSize": "400 g",
+          "preparation": "drained"
+        },
+        {
+          "name": "carrots",
+          "quantity": 200,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "yellow onion",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "garlic",
+          "quantity": 2,
+          "unit": "clove",
+          "category": "Produce"
+        },
+        {
+          "name": "spinach",
+          "quantity": 100,
+          "unit": "g",
+          "category": "Produce"
+        },
+        {
+          "name": "vegetable stock",
+          "quantity": 600,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "lemon",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "olive oil",
+          "quantity": 15,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "dried thyme",
+          "quantity": 1,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "wholegrain bread",
+          "quantity": 4,
+          "unit": "slice",
+          "category": "Bakery"
+        },
+        {
+          "name": "black pepper",
+          "quantity": 0.5,
+          "unit": "g",
+          "category": "Pantry"
+        }
+      ],
+      "steps": [
+        "Peel and dice the onion and carrots. Finely chop the garlic.",
+        "Drain and rinse the beans. Rinse the spinach.",
+        "Warm the oil in a saucepan over medium heat. Cook the onion and carrots for several minutes until the onion softens.",
+        "Add the garlic and thyme and stir for 30 seconds.",
+        "Pour in the vegetable stock and add the beans. Bring to a simmer.",
+        "Cook gently until the carrots are tender, about 15 minutes. Mash a spoonful of beans against the side of the pan for a slightly thicker soup.",
+        "Stir in the spinach and pepper, then add lemon juice to taste from the measured lemon. Heat until the spinach wilts.",
+        "Toast the bread and serve it alongside the soup. Taste before adding any extra salt because stocks vary in saltiness."
+      ],
+      "source": {
+        "name": "Weektable original starter recipe",
+        "url": "",
+        "kind": "original",
+        "license": "CC0-1.0"
+      }
+    },
+    {
+      "id": "chicken-fajita-wraps",
+      "title": "Chicken fajita wraps",
+      "description": "Sizzling chicken and peppers with cool yogurt and a squeeze of lime.",
+      "servings": 2,
+      "minutes": 30,
+      "tags": [
+        "Chicken",
+        "Quick",
+        "Family-friendly"
+      ],
+      "category": "Dinner",
+      "color": "#E7D3BC",
+      "ingredients": [
+        {
+          "name": "chicken breast",
+          "quantity": 350,
+          "unit": "g",
+          "category": "Meat & seafood"
+        },
+        {
+          "name": "medium flour tortillas",
+          "quantity": 4,
+          "unit": "each",
+          "category": "Bakery"
+        },
+        {
+          "name": "red bell pepper",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "yellow bell pepper",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "red onion",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "plain Greek yogurt",
+          "quantity": 80,
+          "unit": "g",
+          "category": "Dairy & eggs"
+        },
+        {
+          "name": "lime",
+          "quantity": 1,
+          "unit": "each",
+          "category": "Produce"
+        },
+        {
+          "name": "olive oil",
+          "quantity": 15,
+          "unit": "ml",
+          "category": "Pantry"
+        },
+        {
+          "name": "ground cumin",
+          "quantity": 2,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "smoked paprika",
+          "quantity": 2,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "salt",
+          "quantity": 2,
+          "unit": "g",
+          "category": "Pantry"
+        },
+        {
+          "name": "black pepper",
+          "quantity": 0.5,
+          "unit": "g",
+          "category": "Pantry"
+        }
+      ],
+      "steps": [
+        "Slice the peppers and onion into strips. Set them aside.",
+        "Using a separate board, cut the chicken into thin, even strips.",
+        "Toss the chicken with half the oil, the cumin, paprika, salt and pepper.",
+        "Heat a large frying pan over medium-high heat. Cook the chicken in batches until lightly browned and its centre reaches 74°C. Transfer to a clean plate.",
+        "Add the remaining oil to the pan. Cook the peppers and onion until softened and lightly browned.",
+        "Return the chicken to the pan and squeeze over half the lime. Toss until everything is hot.",
+        "Warm the tortillas according to their packet directions. Mix the yogurt with juice from the remaining lime.",
+        "Fill the warm tortillas with chicken and peppers and spoon on the lime yogurt. Keep any extra filling separate until serving."
+      ],
+      "source": {
+        "name": "Weektable original starter recipe",
+        "url": "",
+        "kind": "original",
+        "license": "CC0-1.0"
+      }
+    }
+  ]
+}
