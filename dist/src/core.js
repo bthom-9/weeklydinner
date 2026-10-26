@@ -121,7 +121,30 @@ function safeImage(value) {
 
 function safeSourceUrl(value) {
   const s = text(value);
-  return /^https?:\/\//i.test(s) ? s : '';
+  try {
+    const url = new URL(s);
+    return ['http:', 'https:'].includes(url.protocol) && url.hostname ? s : '';
+  } catch { return ''; }
+}
+
+function sourceDate(value) {
+  const s = text(value);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return '';
+  const date = new Date(`${s}T12:00:00Z`);
+  return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === s ? s : '';
+}
+
+// Optional review data must never turn a missing, invalid or unrated value into
+// a credible-looking badge. Ratings describe the cited source recipe, including
+// when a cook later adapts the recipe saved in this app.
+function normalizeRating(value, fallbackUrl) {
+  if (!value || typeof value !== 'object') return null;
+  const numeric = input => typeof input === 'number' || typeof input === 'string' && input.trim() !== '';
+  if (!numeric(value.value) || !numeric(value.count) || !numeric(value.best ?? 5)) return null;
+  const score = Number(value.value), count = Number(value.count), best = Number(value.best ?? 5);
+  const sourceUrl = safeSourceUrl(value.sourceUrl) || safeSourceUrl(fallbackUrl);
+  if (!Number.isFinite(score) || !Number.isFinite(best) || best <= 0 || score <= 0 || score > best || !Number.isSafeInteger(count) || count < 1 || !sourceUrl) return null;
+  return { value: score, count, best, sourceUrl, ...(sourceDate(value.retrievedAt) && { retrievedAt: sourceDate(value.retrievedAt) }) };
 }
 
 export function normalizeRecipe(input) {
@@ -135,13 +158,21 @@ export function normalizeRecipe(input) {
   const steps = (input.steps || []).map(s => text(typeof s === 'object' ? s.text : s)).filter(Boolean);
   if (!steps.length) throw new Error(`“${title}”: no cooking instructions found.`);
   const rawSource = input.source && typeof input.source === 'object' ? input.source : {};
-  const source = { name: text(rawSource.name) || 'Your imported recipe', url: safeSourceUrl(rawSource.url), kind: rawSource.kind === 'original' ? 'original' : 'imported', ...(rawSource.license && { license: text(rawSource.license) }) };
+  const source = {
+    name: text(rawSource.name) || 'Your imported recipe', url: safeSourceUrl(rawSource.url),
+    kind: rawSource.kind === 'original' ? 'original' : 'imported',
+    ...Object.fromEntries(['license', 'attribution', 'adaptations'].filter(key => text(rawSource[key])).map(key => [key, text(rawSource[key])])),
+    ...(safeSourceUrl(rawSource.licenseUrl) && { licenseUrl: safeSourceUrl(rawSource.licenseUrl) }),
+    ...(sourceDate(rawSource.retrievedAt) && { retrievedAt: sourceDate(rawSource.retrievedAt) })
+  };
+  const rating = normalizeRating(input.rating, source.url);
   const recipe = {
     id: text(input.id) || `recipe-${hash(`${title}|${source.url}|${servings}`)}`,
     title, description: text(input.description), servings,
     minutes: Number.isFinite(Number(input.minutes)) && input.minutes !== null && input.minutes !== '' && Number(input.minutes) >= 0 ? Number(input.minutes) : null,
     tags: (Array.isArray(input.tags) ? input.tags : []).map(text).filter(Boolean),
     category: text(input.category) || 'Dinner', ingredients, steps, source,
+    ...(rating && { rating }),
     ...(safeImage(input.image) && { image: safeImage(input.image) }),
     ...(/^#[0-9a-f]{3,8}$/i.test(text(input.color)) && { color: text(input.color) })
   };
@@ -159,6 +190,26 @@ export function normalizeRecipe(input) {
     }
   }
   return recipe;
+}
+
+/** Add newly shipped recipes without changing a saved recipe or personal import. */
+export function mergeRecipeCollections(shipped, savedBundled = null, imports = []) {
+  const bundled = Array.isArray(savedBundled) ? [...savedBundled] : [];
+  const seen = new Set();
+  // A collision already inside a backup is ambiguous: a meal refers to its ID,
+  // so choosing either stored version would silently change that meal's food.
+  for (const recipe of [...bundled, ...imports]) {
+    if (seen.has(recipe.id)) throw new Error(`This backup repeats the recipe ID “${recipe.id}”. Give each recipe a unique ID before restoring so plans and shopping totals use the same recipe.`);
+    seen.add(recipe.id);
+  }
+  const addedIds = [];
+  for (const recipe of shipped) {
+    if (seen.has(recipe.id)) continue;
+    bundled.push(recipe);
+    addedIds.push(recipe.id);
+    seen.add(recipe.id);
+  }
+  return { bundled, recipes: [...bundled, ...imports], addedIds };
 }
 
 export function scaleRecipe(recipe, servings) {
@@ -314,7 +365,16 @@ function fromSchema(recipe) {
     minutes: durationMinutes(recipe.totalTime) ?? ((durationMinutes(recipe.prepTime) ?? 0) + (durationMinutes(recipe.cookTime) ?? 0) || null),
     ingredients: (recipe.recipeIngredient || []).map(stripMarkup), steps: instructionText(recipe.recipeInstructions),
     tags: [recipe.recipeCategory, recipe.recipeCuisine].flat().filter(v => typeof v === 'string'),
-    source: { name: text(typeof author === 'string' ? author : author?.name) || 'Imported recipe', url: recipe.url || recipe.mainEntityOfPage?.['@id'] || '', kind: 'imported' },
+    source: {
+      name: text(typeof author === 'string' ? author : author?.name) || 'Imported recipe', url: recipe.url || recipe.mainEntityOfPage?.['@id'] || '', kind: 'imported',
+      ...(typeof recipe.license === 'string' && { license: recipe.license, licenseUrl: safeSourceUrl(recipe.license) }),
+      ...(typeof recipe.creditText === 'string' && { attribution: stripMarkup(recipe.creditText) })
+    },
+    rating: recipe.aggregateRating && {
+      value: recipe.aggregateRating.ratingValue, count: recipe.aggregateRating.ratingCount ?? recipe.aggregateRating.reviewCount,
+      best: recipe.aggregateRating.bestRating ?? 5,
+      sourceUrl: recipe.url || recipe.mainEntityOfPage?.['@id'] || ''
+    },
     image: typeof rawImage === 'object' ? rawImage?.url : rawImage
   });
 }
