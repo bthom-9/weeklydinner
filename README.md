@@ -1,4 +1,4 @@
-# # Weektable
+# Weektable
 
 **Your own recipe book, weekly meal planner, and consolidated grocery list.**
 

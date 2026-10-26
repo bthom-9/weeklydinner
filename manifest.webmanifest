@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "Weektable — Meals & Groceries",
+  "short_name": "Weektable",
+  "description": "Plan your week, cook for 2, 4, or 6, and shop from one organized list.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "lang": "en-CA",
+  "background_color": "#f6f5ee",
+  "theme_color": "#294f42",
+  "categories": ["food", "lifestyle", "productivity"],
+  "icons": [
+    { "src": "./assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./assets/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

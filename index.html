@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#244c3d">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Weektable">
+    <meta name="description" content="Your recipes, a thoughtful weekly plan, and one useful shopping list. A private, offline-ready meal planner.">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="apple-touch-icon" href="./assets/icon-180.png">
+    <link rel="icon" type="image/png" href="./assets/icon-192.png">
+    <link rel="stylesheet" href="./src/styles.css">
+    <title>Weektable · Make room for dinner</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div id="app"><div class="loading-shell"><div class="loading-mark">w.</div><h1>Setting the table…</h1><p>Your recipes will be ready in a moment.</p></div></div>
+    <div id="modal-root"></div>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <input type="file" id="import-files" accept=".json,.jsonld,.html,.htm" multiple hidden>
+    <input type="file" id="restore-file" accept=".json" hidden>
+    <noscript><p>Weektable needs JavaScript to calculate your plan and shopping list. Please enable JavaScript in your browser.</p></noscript>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
